@@ -1,1 +1,2 @@
-export * from './'
+export * from './Profile'
+export * from './Home'

@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { Footer, Navbar } from '@elements'
+import { Aside, Footer, Navbar } from '@elements'
 import { AuthContextProvider } from '@contexts'
 import Head from 'next/head'
 
@@ -18,10 +18,13 @@ export default function App({ Component, pageProps }: AppProps) {
                     content="width=device-width, initial-scale=1"
                 />
             </Head>
-            <Navbar />
-            <main className="w-full min-h-screen bg-primary">
-                <Component {...pageProps} />
-            </main>
+            <div className="flex container">
+                <Navbar />
+                <main className="w-full max-w-[650px] border-x-[1px] border-gray-700 min-h-[200vh]">
+                    <Component {...pageProps} />
+                </main>
+                <Aside />
+            </div>
             <Footer />
         </AuthContextProvider>
     )

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Footer: React.FC = () => {
+export const Dropdown: React.FC = () => {
     // TODO: Write element's logic
 
     return <></>
