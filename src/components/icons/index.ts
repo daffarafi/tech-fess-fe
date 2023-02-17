@@ -1,2 +1,7 @@
 export * from './Profile'
 export * from './Home'
+export * from './Ellipsis'
+export * from './Like'
+export * from './Comment'
+export * from './Share'
+export * from './Trash'

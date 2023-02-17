@@ -30,14 +30,7 @@ export const HomeModule: React.FC = () => {
                             className="bg-transparent w-full resize-none focus:outline-none min-h-[2rem] my-3"
                         ></textarea>
                         <div className="flex flex-row-reverse">
-                            <Button
-                                variant="primary"
-                                fullWidth={false}
-                                disabled={false}
-                                onClick={sendPostHandler}
-                            >
-                                Kirim
-                            </Button>
+                            <Button onClick={sendPostHandler}>Kirim</Button>
                         </div>
                     </div>
                 </div>

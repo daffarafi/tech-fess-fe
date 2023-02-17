@@ -18,20 +18,10 @@ export const Aside: React.FC = () => {
                             Daftar sekarang dan bagikan pengalaman anda!
                         </p>
                         <div className="flex flex-col gap-1">
-                            <Button
-                                variant="primary"
-                                disabled={false}
-                                fullWidth
-                                onClick={loginButtonHandler}
-                            >
+                            <Button fullWidth onClick={loginButtonHandler}>
                                 Masuk
                             </Button>
-                            <Button
-                                fullWidth
-                                variant="primary"
-                                disabled={false}
-                                onClick={registerButtonHandler}
-                            >
+                            <Button fullWidth onClick={registerButtonHandler}>
                                 Daftar
                             </Button>
                         </div>
