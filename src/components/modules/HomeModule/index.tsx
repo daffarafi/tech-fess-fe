@@ -2,7 +2,9 @@ import { Button, Dropdown, Posting } from '@elements'
 import React from 'react'
 
 export const HomeModule: React.FC = () => {
-    function textareaResize(e: HTMLElement) {
+    const sendPostHandler = () => {}
+
+    const textareaResize = (e: HTMLElement) => {
         e.style.height = '0'
         e.style.height = e.scrollHeight + 'px'
     }
@@ -28,7 +30,14 @@ export const HomeModule: React.FC = () => {
                             className="bg-transparent w-full resize-none focus:outline-none min-h-[2rem] my-3"
                         ></textarea>
                         <div className="flex flex-row-reverse">
-                            <Button>Kirim</Button>
+                            <Button
+                                variant="primary"
+                                fullWidth={false}
+                                disabled={false}
+                                onClick={sendPostHandler}
+                            >
+                                Kirim
+                            </Button>
                         </div>
                     </div>
                 </div>

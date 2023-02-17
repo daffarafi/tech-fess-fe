@@ -2,6 +2,10 @@ import { Button } from '@elements'
 import React from 'react'
 
 export const Aside: React.FC = () => {
+    const registerButtonHandler = () => {}
+
+    const loginButtonHandler = () => {}
+
     return (
         <div className="pl-4">
             <div className="pt-3 sticky top-0 ">
@@ -14,8 +18,22 @@ export const Aside: React.FC = () => {
                             Daftar sekarang dan bagikan pengalaman anda!
                         </p>
                         <div className="flex flex-col gap-1">
-                            <Button fullWidth>Masuk</Button>
-                            <Button fullWidth>Daftar</Button>
+                            <Button
+                                variant="primary"
+                                disabled={false}
+                                fullWidth
+                                onClick={loginButtonHandler}
+                            >
+                                Masuk
+                            </Button>
+                            <Button
+                                fullWidth
+                                variant="primary"
+                                disabled={false}
+                                onClick={registerButtonHandler}
+                            >
+                                Daftar
+                            </Button>
                         </div>
                         <p className="text-xs text-secondary">
                             Dengan mendaftar, Anda telah berkontribusi dalam
