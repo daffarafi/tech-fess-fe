@@ -24,6 +24,8 @@ export const Custombutton: React.FC<CustomButtonProps> = ({
 
         style += fullWidth ? 'w-full ' : 'w-min '
 
+        style += disabled ? 'opacity-75 ' : ''
+
         return style
     }
 

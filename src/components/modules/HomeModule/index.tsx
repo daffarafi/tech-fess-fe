@@ -14,6 +14,10 @@ export const HomeModule: React.FC = () => {
                 `${process.env.NEXT_PUBLIC_API_URL}/postings`
             )
             const responseJson = await response.json()
+            console.log(responseJson)
+            if (responseJson.statusCode !== 200) {
+                throw new Error(responseJson)
+            }
 
             setPosts(responseJson)
         } catch (err) {

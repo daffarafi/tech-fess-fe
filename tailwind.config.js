@@ -11,6 +11,7 @@ module.exports = {
         primary: '#01162D',
         secondary: '#88BFE8',
         danger: '#FF7070',
+        success: '#00BA7C',
       },
     },
     container: {

@@ -1,7 +1,7 @@
 import React from 'react'
-import { UsersModule } from '@modules'
+import { UserModule } from '@modules'
 import type { NextPage } from 'next'
 
-const Profile: NextPage = () => <UsersModule />
+const Profile: NextPage = () => <UserModule />
 
 export default Profile
