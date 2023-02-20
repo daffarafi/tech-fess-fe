@@ -9,7 +9,7 @@ export const Custombutton: React.FC<CustomButtonProps> = ({
     children,
 }) => {
     const getButtonStyleByVariant = () => {
-        let style = 'block rounded-full py-1 px-3 '
+        let style = 'block whitespace-nowrap rounded-full py-1 px-3 '
 
         switch (variant) {
             case 'primary':
@@ -19,7 +19,7 @@ export const Custombutton: React.FC<CustomButtonProps> = ({
                 style += 'bg-black text-white '
                 break
             case 'tertiary':
-                style += 'border border-secondary bg-transparent text-white '
+                style += 'border-2 border-gray-700 bg-transparent text-white '
         }
 
         style += fullWidth ? 'w-full ' : 'w-min '

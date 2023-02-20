@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </Head>
             <div className="flex container max-w-6xl">
                 <Navbar />
-                <main className="w-full max-w-[650px] border-x-[1px] border-gray-700 min-h-[200vh]">
+                <main className="w-full max-w-[650px] border-x border-gray-700 min-h-[200vh]">
                     <Component {...pageProps} />
                 </main>
                 <Aside />
