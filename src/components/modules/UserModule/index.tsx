@@ -1,6 +1,5 @@
-import { Button } from '@elements'
-import { Arrowleft, Cake, Date } from '@icons'
-import { useRouter } from 'next/router'
+import { Arrowleft } from '@icons'
+// import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Content } from './Content'
 import { ContentTabs } from './ContentTabs'
@@ -8,7 +7,7 @@ import { tabsProps } from './interface'
 import { ProfileHeader } from './ProfileHeader'
 
 export const UserModule: React.FC = () => {
-    const router = useRouter()
+    // const router = useRouter()
     const [tab, setTab] = useState<tabsProps['tab']>('post')
     const [content, setContent] = useState([])
     const [loadingState, setLoadingState] = useState(false)
