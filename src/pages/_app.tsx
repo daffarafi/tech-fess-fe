@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     content="width=device-width, initial-scale=1"
                 />
             </Head>
-            <div className="flex container">
+            <div className="flex container max-w-6xl">
                 <Navbar />
                 <main className="w-full max-w-[650px] border-x-[1px] border-gray-700 min-h-[200vh]">
                     <Component {...pageProps} />

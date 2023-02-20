@@ -7,7 +7,7 @@ export const Aside: React.FC = () => {
     const loginButtonHandler = () => {}
 
     return (
-        <div className="pl-4">
+        <div className="pl-4 ">
             <div className="pt-3 sticky top-0 ">
                 <div className="border-[1px] border-gray-700 rounded-2xl px-2 py-3">
                     <h1 className="font-bold text-xl border-b border-gray-700 pb-2">

@@ -1,12 +1,57 @@
-import { Button, Dropdown, Posting } from '@elements'
-import React from 'react'
+import { Posting } from '@elements'
+import React, { useEffect, useState } from 'react'
+import { PostProps } from './interface'
+import { SendPost } from './SendPost'
 
 export const HomeModule: React.FC = () => {
-    const sendPostHandler = () => {}
+    const [loadingState, setLoadingState] = useState(false)
+    const [posts, setPosts] = useState<PostProps[]>([])
 
-    const textareaResize = (e: HTMLElement) => {
-        e.style.height = '0'
-        e.style.height = e.scrollHeight + 'px'
+    const getPosts = async () => {
+        try {
+            setLoadingState(true)
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/postings`
+            )
+            const responseJson = await response.json()
+
+            setPosts(responseJson)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setLoadingState(false)
+        }
+    }
+
+    useEffect(() => {
+        getPosts()
+    }, [])
+
+    const renderPosts = () => {
+        if (loadingState) {
+            return (
+                <div className="w-full my-20 flex justify-center">
+                    <div className="w-8 aspect-square rounded-full animate-spin border-2 border-secondary border-x-transparent"></div>
+                </div>
+            )
+        }
+        if (posts.length === 0) {
+            return <p className="text-secondary text-xl">Terjadi kesalahan!</p>
+        } else {
+            return (
+                <>
+                    {posts.map((post) => (
+                        <Posting
+                            key={post.id}
+                            displayName={post.user.displayName}
+                            username={post.user.username}
+                            content={post.content}
+                            createdAt={post.createdAt}
+                        />
+                    ))}
+                </>
+            )
+        }
     }
 
     return (
@@ -15,26 +60,8 @@ export const HomeModule: React.FC = () => {
                 <h1 className="font-medium text-lg">Beranda</h1>
             </div>
             <div>
-                <div className="flex w-full gap-2 border-y-[1px] border-gray-700 px-3 py-2">
-                    <div className="w-12 h-12 bg-gray-500 rounded-full "></div>
-                    <div className="w-full flex-1">
-                        <Dropdown></Dropdown>
-                        <textarea
-                            name="upload-post"
-                            id="uploadPost"
-                            placeholder="Apa yang sedang terjadi?"
-                            maxLength={280}
-                            onInput={(e) =>
-                                textareaResize(e.target as HTMLElement)
-                            }
-                            className="bg-transparent w-full resize-none focus:outline-none min-h-[2rem] my-3"
-                        ></textarea>
-                        <div className="flex flex-row-reverse">
-                            <Button onClick={sendPostHandler}>Kirim</Button>
-                        </div>
-                    </div>
-                </div>
-                <Posting />
+                <SendPost />
+                {renderPosts()}
             </div>
         </>
     )
