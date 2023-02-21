@@ -1,16 +1,16 @@
 import { Button } from '@elements'
-import React from 'react'
+import React, { useState } from 'react'
+import { LoginForm } from './LoginForm'
 import { RegisterStep } from './RegisterStep'
 
 export const Aside: React.FC = () => {
-    const registerButtonHandler = () => {}
-
-    const loginButtonHandler = () => {}
+    const [showRegisterForm, setShowRegisterForm] = useState(false)
+    const [showLoginForm, setShowLoginForm] = useState(false)
 
     return (
         <>
             <div className="pl-4 ">
-                <div className="pt-3 sticky -z-10 top-0 ">
+                <div className="pt-3 sticky z-0 top-0 ">
                     <div className="border-[1px] border-gray-700 rounded-2xl px-2 py-3">
                         <h1 className="font-bold text-xl border-b border-gray-700 pb-2">
                             Selamat datang di TechFess!
@@ -20,12 +20,19 @@ export const Aside: React.FC = () => {
                                 Daftar sekarang dan bagikan pengalaman anda!
                             </p>
                             <div className="flex flex-col gap-1">
-                                <Button fullWidth onClick={loginButtonHandler}>
+                                <Button
+                                    fullWidth
+                                    onClick={() => {
+                                        setShowLoginForm(true)
+                                    }}
+                                >
                                     Masuk
                                 </Button>
                                 <Button
                                     fullWidth
-                                    onClick={registerButtonHandler}
+                                    onClick={() => {
+                                        setShowRegisterForm(true)
+                                    }}
                                 >
                                     Daftar
                                 </Button>
@@ -38,7 +45,18 @@ export const Aside: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <RegisterStep />
+            <div className={`${showRegisterForm ? '' : 'hidden'}`}>
+                <RegisterStep
+                    setShowRegisterForm={setShowRegisterForm}
+                    setShowLoginForm={setShowLoginForm}
+                />
+            </div>
+            <div className={`${showLoginForm ? '' : 'hidden'}`}>
+                <LoginForm
+                    setShowLoginForm={setShowLoginForm}
+                    setShowRegisterForm={setShowRegisterForm}
+                />
+            </div>
         </>
     )
 }

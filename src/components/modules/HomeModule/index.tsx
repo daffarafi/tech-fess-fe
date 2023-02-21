@@ -60,7 +60,7 @@ export const HomeModule: React.FC = () => {
 
     return (
         <>
-            <div className="sticky top-0 py-3 px-3 border-b-[1px] border-gray-700 before:backdrop-blur-sm before:absolute before:-z-10 before:top-0 before:left-0 before:w-full before:h-full">
+            <div className="sticky z-20 top-0 py-3 px-3 border-b-[1px] border-gray-700 before:backdrop-blur-sm before:absolute before:-z-10 before:top-0 before:left-0 before:w-full before:h-full">
                 <h1 className="font-medium text-lg">Beranda</h1>
             </div>
             <div>

@@ -1,28 +1,73 @@
 import { Button } from '@elements'
-import React from 'react'
+import React, { useState } from 'react'
 import { RegisterSecondPageProps } from './interface'
 
 export const RegisterSecondPage: React.FC<RegisterSecondPageProps> = ({
-    step,
     setStep,
     username,
     setUsername,
 }) => {
+    const [isUsernameAlreadyRegistered, setIsUsernameAlreadyRegistered] =
+        useState(false)
+    const [loadingState, setLoadingState] = useState(false)
+
+    const getUserByUsername = async () => {
+        try {
+            setLoadingState(true)
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/users/checkusername/${username}`
+            )
+            const responseJson = await response.json()
+            console.log(responseJson)
+            return responseJson.id
+        } catch (err) {
+        } finally {
+            setLoadingState(false)
+        }
+    }
+
+    const inputUsername = (value: string) => {
+        if (value.length > 15) return
+        setIsUsernameAlreadyRegistered(false)
+        setUsername(value)
+    }
+
+    const nextButtonHandler = async () => {
+        if (await getUserByUsername()) {
+            setIsUsernameAlreadyRegistered(true)
+            return
+        }
+        setStep(3)
+    }
+
     return (
         <>
             <div className="px-20 pt-5 overflow-y-auto flex flex-col gap-8 flex-1">
                 <h1 className="font-semibold text-3xl">Buat username</h1>
                 <div className="flex flex-col gap-6">
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => {
-                            const target = e.target as HTMLButtonElement
-                            setUsername(target.value)
-                        }}
-                        className="bg-transparent border border-secondary/50 px-2 py-4 rounded-lg placeholder-secondary/50"
-                    />
+                    <label>
+                        <div className="flex w-full justify-between">
+                            <p>Username</p>
+                            <p>{username.length}/15</p>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="daffarafi"
+                            value={username}
+                            onChange={(e) => {
+                                const target = e.target as HTMLButtonElement
+                                inputUsername(target.value)
+                            }}
+                            className="bg-transparent border w-full border-secondary/50 px-2 py-4 rounded-lg placeholder-secondary/50"
+                        />
+                        <p
+                            className={`text-danger ${
+                                isUsernameAlreadyRegistered ? '' : 'hidden'
+                            }`}
+                        >
+                            Username sudah digunakan!
+                        </p>
+                    </label>
                     <p className="text-sm text-secondary">
                         Username merupakan nama unik yang berguna sebagai
                         identitas dari akun anda. Setiap akun hanya boleh
@@ -32,34 +77,25 @@ export const RegisterSecondPage: React.FC<RegisterSecondPageProps> = ({
                 </div>
             </div>
             <div className="px-20 py-5 flex flex-col gap-2">
-                {step === 2 || step === 3 || step === 4 ? (
-                    <Button
-                        fullWidth
-                        variant="secondary"
-                        onClick={() => {
-                            setStep(step - 1)
-                        }}
-                    >
-                        <span className="py-2 block font-semibold">
-                            Kembali
-                        </span>
-                    </Button>
+                <Button
+                    fullWidth
+                    variant="secondary"
+                    onClick={() => {
+                        setStep(1)
+                    }}
+                >
+                    <span className="py-2 block font-semibold">Kembali</span>
+                </Button>
+                {loadingState ? (
+                    <div className="w-full py-2 flex justify-center">
+                        <div className="w-8 aspect-square rounded-full animate-spin border-2 border-secondary border-x-transparent"></div>
+                    </div>
                 ) : (
-                    ''
-                )}
-                {step === 1 || step === 2 || step === 3 ? (
-                    <Button
-                        fullWidth
-                        onClick={() => {
-                            setStep(step + 1)
-                        }}
-                    >
+                    <Button fullWidth onClick={nextButtonHandler}>
                         <span className="py-2 block font-semibold">
                             Berikutnya
                         </span>
                     </Button>
-                ) : (
-                    ''
                 )}
             </div>
         </>

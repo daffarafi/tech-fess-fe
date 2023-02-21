@@ -1,1 +1,1 @@
-export * from './getTestProps'
+export * from './'
