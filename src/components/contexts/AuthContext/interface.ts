@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 
 export interface AuthContextProps {
+  user: UserProps | null
   loadingState: boolean
   errorMessage: string
   isDataValid: boolean
@@ -16,6 +17,17 @@ export interface AuthContextProps {
   }: RegisterProps) => Promise<void>
   getUserByEmail: (email: string) => Promise<string>
   getUserByUsername: (email: string) => Promise<number>
+}
+
+export interface UserProps {
+  id: number
+  createdAt: string
+  updatedAt: string
+  displayName: string
+  username: string
+  birthdate: string
+  biodata: string
+  email: string
 }
 
 export interface AuthContextProviderProps {

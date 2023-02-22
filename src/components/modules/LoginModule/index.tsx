@@ -13,6 +13,7 @@ export const Login: React.FC<LoginRegisterFormProps> = ({
     const [password, setPassword] = useState('')
 
     const {
+        user,
         loadingState,
         isDataValid,
         setIsDataValid,
@@ -122,6 +123,31 @@ export const Login: React.FC<LoginRegisterFormProps> = ({
         )
     }
 
+    const renderAuthorized = (email: string) => {
+        return (
+            <div>
+                <h1>Anda sudah login dengan akun {email}</h1>
+            </div>
+        )
+    }
+
+    const renderLoginContent = () => {
+        if (loadingState) {
+            return (
+                <div className="w-full flex justify-center">
+                    <div className="w-8 aspect-square rounded-full animate-spin border-2 border-secondary border-x-transparent"></div>
+                </div>
+            )
+        }
+        if (user) {
+            return renderAuthorized(user.email)
+        }
+        if (loginSuccess) {
+            return renderSuccessLogin()
+        }
+        return renderLoginForm()
+    }
+
     return (
         <div className="fixed flex justify-center items-center z-20 top-0 left-0 w-full h-screen p-2 bg-secondary/30">
             <div className="w-full flex flex-col max-w-xl h-full max-h-[40rem] rounded-2xl bg-primary">
@@ -136,7 +162,7 @@ export const Login: React.FC<LoginRegisterFormProps> = ({
                         <div className="w-full h-0.5 bg-white -rotate-45 -translate-y-0.5" />
                     </button>
                 </div>
-                {loginSuccess ? renderSuccessLogin() : renderLoginForm()}
+                {renderLoginContent()}
             </div>
         </div>
     )
