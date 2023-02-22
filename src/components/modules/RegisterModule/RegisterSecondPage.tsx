@@ -1,30 +1,14 @@
+import { useAuthContext, useRegisterContext } from '@contexts'
 import { Button } from '@elements'
 import React, { useState } from 'react'
-import { RegisterSecondPageProps } from './interface'
+import { SetStepProps } from './interface'
 
-export const RegisterSecondPage: React.FC<RegisterSecondPageProps> = ({
-    setStep,
-    username,
-    setUsername,
-}) => {
+export const RegisterSecondPage: React.FC<SetStepProps> = ({ setStep }) => {
     const [isUsernameAlreadyRegistered, setIsUsernameAlreadyRegistered] =
         useState(false)
-    const [loadingState, setLoadingState] = useState(false)
 
-    const getUserByUsername = async () => {
-        try {
-            setLoadingState(true)
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/checkusername/${username}`
-            )
-            const responseJson = await response.json()
-            console.log(responseJson)
-            return responseJson.id
-        } catch (err) {
-        } finally {
-            setLoadingState(false)
-        }
-    }
+    const { getUserByUsername, loadingState } = useAuthContext()
+    const { username, setUsername } = useRegisterContext()
 
     const inputUsername = (value: string) => {
         if (value.length > 15) return
@@ -33,7 +17,7 @@ export const RegisterSecondPage: React.FC<RegisterSecondPageProps> = ({
     }
 
     const nextButtonHandler = async () => {
-        if (await getUserByUsername()) {
+        if (await getUserByUsername(username)) {
             setIsUsernameAlreadyRegistered(true)
             return
         }

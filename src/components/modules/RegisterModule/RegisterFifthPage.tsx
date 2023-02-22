@@ -1,12 +1,12 @@
+import { useAuthContext } from '@contexts'
 import { Button } from '@elements'
 import { Check } from '@icons'
 import Link from 'next/link'
 import React from 'react'
-import { RegisterFifthPageProps } from './interface'
 
-export const RegisterFifthPage: React.FC<RegisterFifthPageProps> = ({
-    loadingState,
-}) => {
+export const RegisterFifthPage: React.FC = () => {
+    const { loadingState } = useAuthContext()
+
     return (
         <>
             {loadingState ? (
@@ -21,17 +21,24 @@ export const RegisterFifthPage: React.FC<RegisterFifthPageProps> = ({
                     </h1>
                     <div className="flex flex-col gap-6 w-full">
                         <Link href={'/'}>
-                            <Button fullWidth>
+                            <Button
+                                fullWidth
+                                onClick={() => window.location.reload()}
+                            >
                                 <span className="py-2 block font-semibold">
                                     Beranda
                                 </span>
                             </Button>
                         </Link>
                         <Link href={'/users'}>
-                            <Button variant="secondary" fullWidth>
+                            <Button
+                                variant="secondary"
+                                fullWidth
+                                onClick={() => window.location.reload()}
+                            >
                                 <span className="py-2 block font-semibold">
                                     Profile
-                                </span>{' '}
+                                </span>
                             </Button>
                         </Link>
                     </div>

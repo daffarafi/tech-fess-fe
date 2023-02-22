@@ -1,56 +1,28 @@
+import { useAuthContext } from '@contexts'
 import { Button } from '@elements'
 import { Check } from '@icons'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { LoginRegisterFormProps } from './interface'
 
-export const LoginForm: React.FC<LoginRegisterFormProps> = ({
+export const Login: React.FC<LoginRegisterFormProps> = ({
     setShowLoginForm,
     setShowRegisterForm,
 }) => {
-    const router = useRouter()
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [loadingState, setLoadingState] = useState(false)
-    const [isDataValid, setIsDataValid] = useState(true)
-    const [loginSuccess, setLoginSuccess] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
 
-    const option = {
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-    }
+    const {
+        loadingState,
+        isDataValid,
+        setIsDataValid,
+        errorMessage,
+        submitLoginForm,
+        loginSuccess,
+    } = useAuthContext()
 
-    const submitLoginForm = async () => {
-        try {
-            setLoadingState(true)
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-                option
-            )
-
-            const responseJson = await response.json()
-
-            if (responseJson.statusCode === 403) {
-                throw new Error('Email atau password salah!')
-            }
-            console.log(responseJson)
-            setLoginSuccess(true)
-            router.push('/', undefined, { shallow: false })
-            location.reload()
-        } catch (err) {
-            if (err instanceof Error) {
-                setErrorMessage(err.message)
-                setIsDataValid(false)
-            }
-        } finally {
-            setLoadingState(false)
-        }
+    const submitButtonHandler = () => {
+        submitLoginForm({ email, password })
     }
 
     const renderLoginForm = () => {
@@ -115,7 +87,7 @@ export const LoginForm: React.FC<LoginRegisterFormProps> = ({
                         <Button
                             fullWidth
                             disabled={email && password ? false : true}
-                            onClick={submitLoginForm}
+                            onClick={submitButtonHandler}
                         >
                             <span className="py-2 block font-semibold">
                                 Login

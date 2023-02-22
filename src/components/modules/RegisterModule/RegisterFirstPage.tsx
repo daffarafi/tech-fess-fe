@@ -3,42 +3,28 @@ import React, { useState } from 'react'
 import { RegisterFirstPageProps } from './interface'
 import { emailFilter } from './constant'
 import Link from 'next/link'
+import { useAuthContext, useRegisterContext } from '@contexts'
 
 export const RegisterFirstPage: React.FC<RegisterFirstPageProps> = ({
     setStep,
-    displayName,
-    setDisplayName,
-    email,
-    setEmail,
-    birthdate,
-    setBirthdate,
     setShowLoginForm,
     setShowRegisterForm,
 }) => {
     const [isEmailValid, setIsEmailValid] = useState(true)
     const [isEmailAlreadyRegistered, setIsEmailAlreadyRegistered] =
         useState(false)
-    const [loadingState, setLoadingState] = useState(false)
+    const {
+        displayName,
+        setDisplayName,
+        email,
+        setEmail,
+        birthdate,
+        setBirthdate,
+    } = useRegisterContext()
+
+    const { loadingState, getUserByEmail } = useAuthContext()
 
     const checkEmailFormat = () => (!emailFilter.test(email) ? false : true)
-
-    const getUserByEmail = async () => {
-        try {
-            setLoadingState(true)
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/checkemail/${email}`
-            )
-            const responseJson = await response.json()
-
-            console.log(responseJson)
-
-            return responseJson.username
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setLoadingState(false)
-        }
-    }
 
     const inputEmail = (value: string) => {
         setIsEmailValid(true)
@@ -57,12 +43,11 @@ export const RegisterFirstPage: React.FC<RegisterFirstPageProps> = ({
     }
 
     const nextButtonHandler = async () => {
-        console.log(birthdate)
         if (!checkEmailFormat()) {
             setIsEmailValid(false)
             return
         }
-        if (await getUserByEmail()) {
+        if (await getUserByEmail(email)) {
             setIsEmailAlreadyRegistered(true)
             return
         }

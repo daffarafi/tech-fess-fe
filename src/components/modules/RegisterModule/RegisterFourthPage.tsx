@@ -1,20 +1,26 @@
+import { useAuthContext, useRegisterContext } from '@contexts'
 import { Button } from '@elements'
 import React, { useState } from 'react'
-import { RegisterFourthPageProps } from './interface'
+import { SetStepProps } from './interface'
 
-export const RegisterFourthPage: React.FC<RegisterFourthPageProps> = ({
-    setStep,
-    password,
-    setPassword,
-    submitButtonHandler,
-}) => {
+export const RegisterFourthPage: React.FC<SetStepProps> = ({ setStep }) => {
     const [isValidPassword, setIsValidPassword] = useState(true)
+
+    const { submitRegisterForm } = useAuthContext()
+    const { displayName, email, username, birthdate, password, setPassword } =
+        useRegisterContext()
 
     const nextButtonHandler = () => {
         if (password.length < 8) {
             setIsValidPassword(false)
         } else {
-            submitButtonHandler()
+            submitRegisterForm({
+                displayName,
+                email,
+                username,
+                birthdate,
+                password,
+            })
             setStep(5)
         }
     }

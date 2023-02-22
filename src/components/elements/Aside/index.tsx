@@ -1,7 +1,6 @@
 import { Button } from '@elements'
 import React, { useState } from 'react'
-import { LoginForm } from './LoginForm'
-import { RegisterStep } from './RegisterStep'
+import { Login, Register } from '@modules'
 
 export const Aside: React.FC = () => {
     const [showRegisterForm, setShowRegisterForm] = useState(false)
@@ -46,13 +45,13 @@ export const Aside: React.FC = () => {
                 </div>
             </div>
             <div className={`${showRegisterForm ? '' : 'hidden'}`}>
-                <RegisterStep
+                <Register
                     setShowRegisterForm={setShowRegisterForm}
                     setShowLoginForm={setShowLoginForm}
                 />
             </div>
             <div className={`${showLoginForm ? '' : 'hidden'}`}>
-                <LoginForm
+                <Login
                     setShowLoginForm={setShowLoginForm}
                     setShowRegisterForm={setShowRegisterForm}
                 />

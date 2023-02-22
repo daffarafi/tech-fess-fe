@@ -1,3 +1,5 @@
 export * from './HomeModule'
 export * from './UserModule'
 export * from './UsersModule'
+export * from './RegisterModule'
+export * from './LoginModule'

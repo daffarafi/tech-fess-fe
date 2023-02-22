@@ -1,15 +1,12 @@
+import { useRegisterContext } from '@contexts'
 import { Button } from '@elements'
 import { Check } from '@icons'
 import React from 'react'
-import { RegisterThirdPageProps } from './interface'
+import { SetStepProps } from './interface'
 
-export const RegisterThirdPage: React.FC<RegisterThirdPageProps> = ({
-    displayName,
-    email,
-    username,
-    birthdate,
-    setStep,
-}) => {
+export const RegisterThirdPage: React.FC<SetStepProps> = ({ setStep }) => {
+    const { displayName, email, username, birthdate } = useRegisterContext()
+
     return (
         <>
             <div className="px-20 pt-5 overflow-y-auto flex flex-col gap-8 flex-1">
