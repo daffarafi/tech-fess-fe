@@ -16,7 +16,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     children,
 }) => {
     const router = useRouter()
-    const [loadingState, setLoadingState] = useState(false)
+    const [loadingState, setLoadingState] = useState(true)
     const [isDataValid, setIsDataValid] = useState(true)
     const [loginSuccess, setLoginSuccess] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')

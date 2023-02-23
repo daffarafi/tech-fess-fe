@@ -1,12 +1,43 @@
 import { Button, Dropdown } from '@elements'
 import React, { useState } from 'react'
 
-export const SendPost: React.FC = () => {
+export const SendPost: React.FC<{ getPosts: () => Promise<void> }> = ({
+    getPosts,
+}) => {
     const [isPostFocused, setIsPostFocused] = useState(false)
-    const [isPublic, setIsPublic] = useState(true)
+    const [isPrivate, setIsPrivate] = useState(false)
     const [postContent, setPostContent] = useState('')
+    const [loadingState, setLoadingState] = useState(false)
 
-    const sendPostHandler = () => {}
+    const sendPostHandler = async () => {
+        try {
+            setLoadingState(true)
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/postings`,
+                {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('AT')}`,
+                    },
+                    body: JSON.stringify({
+                        content: postContent,
+                        isPrivate,
+                    }),
+                }
+            )
+
+            const responseJson = await response.json()
+
+            getPosts()
+            setPostContent('')
+            setIsPrivate(false)
+            console.log(responseJson)
+        } catch (err) {
+        } finally {
+            setLoadingState(false)
+        }
+    }
 
     const textareaResize = (e: HTMLElement) => {
         e.style.height = '0'
@@ -14,12 +45,19 @@ export const SendPost: React.FC = () => {
     }
 
     return (
-        <div className="flex w-full gap-2 border-y-[1px] border-gray-700 px-3 py-2">
+        <div className="flex relative w-full gap-2 border-y-[1px] border-gray-700 px-3 py-2">
+            {loadingState ? (
+                <div className="absolute z-10 top-0 left-0 w-full h-full bg-secondary/25 flex justify-center items-center">
+                    <div className="w-8 aspect-square rounded-full animate-spin border-2 border-white border-x-transparent"></div>
+                </div>
+            ) : (
+                ''
+            )}
             <div className="w-12 h-12 bg-gray-500 rounded-full "></div>
             <div className="w-full flex-1">
                 <Dropdown
-                    isPublic={isPublic}
-                    setIsPublic={setIsPublic}
+                    isPrivate={isPrivate}
+                    setIsPrivate={setIsPrivate}
                 ></Dropdown>
                 <textarea
                     name="upload-post"

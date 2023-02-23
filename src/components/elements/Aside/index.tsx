@@ -1,61 +1,144 @@
 import { Button } from '@elements'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Login, Register } from '@modules'
+import { useAuthContext } from '@contexts'
+import { Arrowdown } from '@icons'
 
 export const Aside: React.FC = () => {
     const [showRegisterForm, setShowRegisterForm] = useState(false)
     const [showLoginForm, setShowLoginForm] = useState(false)
+    const [profileDropdown, setProfileDropdown] = useState(false)
 
-    return (
-        <>
-            <div className="pl-4 ">
-                <div className="pt-3 sticky z-0 top-0 ">
-                    <div className="border-[1px] border-gray-700 rounded-2xl px-2 py-3">
-                        <h1 className="font-bold text-xl border-b border-gray-700 pb-2">
-                            Selamat datang di TechFess!
-                        </h1>
-                        <div className="pt-2 flex flex-col gap-3">
-                            <p className="text-xs text-secondary">
-                                Daftar sekarang dan bagikan pengalaman anda!
-                            </p>
-                            <div className="flex flex-col gap-1">
-                                <Button
-                                    fullWidth
-                                    onClick={() => {
-                                        setShowLoginForm(true)
-                                    }}
-                                >
-                                    Masuk
-                                </Button>
-                                <Button
-                                    fullWidth
-                                    onClick={() => {
-                                        setShowRegisterForm(true)
-                                    }}
-                                >
-                                    Daftar
-                                </Button>
-                            </div>
-                            <p className="text-xs text-secondary">
-                                Dengan mendaftar, Anda telah berkontribusi dalam
-                                mendukung proyek yang telah saya buat.
-                            </p>
+    // const { loadingState, user } = useAuthContext()
+    const { user } = useAuthContext()
+
+    const toggleProfileDropdown = () => {
+        setProfileDropdown(!profileDropdown)
+    }
+
+    const closeProfileDropdown = () => {
+        setProfileDropdown(false)
+    }
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setProfileDropdown(false)
+        }
+        window.addEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
+    const renderProfile = () => {
+        return (
+            <div className="relative">
+                <div
+                    className={`fixed w-full top-0 left-0 h-screen z-10 ${
+                        profileDropdown ? '' : 'hidden'
+                    }`}
+                    onClick={closeProfileDropdown}
+                ></div>
+                <button
+                    className="flex justify-between relative z-10 bg-primary items-center w-full border-[1px] border-gray-700 rounded-full px-2 py-3 hover:bg-secondary/25 transition"
+                    onClick={toggleProfileDropdown}
+                >
+                    <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 bg-gray-400 rounded-full"></div>
+                        <div className="flex flex-col">
+                            <p className="text-sm font-semibold">Daffa Rafi</p>
+                            <p className="text-sm text-secondary">@DaffaTGI</p>
                         </div>
                     </div>
+                    <div>
+                        <div
+                            className={`w-5 h-5 rounded-full flex justify-center items-center transition-all ${
+                                profileDropdown ? 'rotate-180' : ''
+                            }`}
+                        >
+                            <Arrowdown />
+                        </div>
+                    </div>
+                </button>
+                <div
+                    className={`bg-black relative z-10 top-2 w-full py-3.5  shadow-[0_0_10px_-4px_#ffffff] text-sm font-semibold rounded-2xl  ${
+                        profileDropdown ? '' : 'hidden'
+                    }`}
+                >
+                    <button className="block hover:bg-white/25 w-full text-start py-3 px-2 transition-all">
+                        Buka profile
+                    </button>
+                    <button className="block hover:bg-white/25 w-full text-start py-3 px-2 transition-all text-danger">
+                        Keluar dari @Daffa
+                    </button>
                 </div>
             </div>
-            <div className={`${showRegisterForm ? '' : 'hidden'}`}>
-                <Register
-                    setShowRegisterForm={setShowRegisterForm}
-                    setShowLoginForm={setShowLoginForm}
-                />
+        )
+    }
+
+    const renderAuth = () => {
+        return (
+            <>
+                <div className=" border-[1px] w-full border-gray-700 rounded-2xl px-2 py-3">
+                    <h1 className="font-bold text-xl border-b border-gray-700 pb-2">
+                        Selamat datang di TechFess!
+                    </h1>
+                    <div className="pt-2 flex flex-col gap-3">
+                        <p className="text-xs text-secondary">
+                            Daftar sekarang dan bagikan pengalaman anda!
+                        </p>
+                        <div className="flex flex-col gap-1">
+                            <Button
+                                fullWidth
+                                onClick={() => {
+                                    setShowLoginForm(true)
+                                }}
+                            >
+                                Masuk
+                            </Button>
+                            <Button
+                                fullWidth
+                                onClick={() => {
+                                    setShowRegisterForm(true)
+                                }}
+                            >
+                                Daftar
+                            </Button>
+                        </div>
+                        <p className="text-xs text-secondary">
+                            Dengan mendaftar, Anda telah berkontribusi dalam
+                            mendukung proyek yang telah saya buat.
+                        </p>
+                    </div>
+                </div>
+                <div className={`${showRegisterForm ? '' : 'hidden'}`}>
+                    <Register
+                        setShowRegisterForm={setShowRegisterForm}
+                        setShowLoginForm={setShowLoginForm}
+                    />
+                </div>
+                <div className={`${showLoginForm ? '' : 'hidden'}`}>
+                    <Login
+                        setShowLoginForm={setShowLoginForm}
+                        setShowRegisterForm={setShowRegisterForm}
+                    />
+                </div>
+            </>
+        )
+    }
+
+    const renderAsideContent = () => {
+        if (user) {
+            return renderProfile()
+        }
+        return renderAuth()
+    }
+
+    return (
+        <div className="pl-4 ">
+            <div className="pt-3 sticky z-10 top-0 w-64">
+                {renderAsideContent()}
             </div>
-            <div className={`${showLoginForm ? '' : 'hidden'}`}>
-                <Login
-                    setShowLoginForm={setShowLoginForm}
-                    setShowRegisterForm={setShowRegisterForm}
-                />
-            </div>
-        </>
+        </div>
     )
 }

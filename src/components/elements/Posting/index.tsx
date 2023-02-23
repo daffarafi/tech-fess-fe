@@ -37,8 +37,10 @@ export const Posting: React.FC<PostingProps> = ({
 
     return (
         <div className="flex w-full gap-2 border-y-[1px] border-gray-700 px-3 py-2">
-            <div className="w-12 h-12 bg-gray-500 rounded-full "></div>
-            <div className="w-full flex-1 ">
+            <div>
+                <div className="w-12 h-12 bg-gray-500 rounded-full "></div>
+            </div>
+            <div className="w-full">
                 <div className="flex w-full justify-between">
                     <div className="flex gap-2 ">
                         <h1 className="font-medium">{displayName}</h1>
@@ -50,8 +52,8 @@ export const Posting: React.FC<PostingProps> = ({
                         <Ellipsis />
                     </div>
                 </div>
-                <div className="text-sm">
-                    <p>{content}</p>
+                <div className="w-full">
+                    <p className="text-sm break-words">{content}</p>
                 </div>
                 <div className="flex w-full justify-around text-xs text-secondary py-3">
                     <div className="flex items-center gap-1">

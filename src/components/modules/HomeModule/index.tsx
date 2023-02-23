@@ -1,11 +1,13 @@
+import { useAuthContext } from '@contexts'
 import { Posting } from '@elements'
 import React, { useEffect, useState } from 'react'
 import { PostProps } from './interface'
 import { SendPost } from './SendPost'
 
 export const HomeModule: React.FC = () => {
-    const [loadingState, setLoadingState] = useState(false)
+    const [loadingState, setLoadingState] = useState(true)
     const [posts, setPosts] = useState<PostProps[]>([])
+    const { user } = useAuthContext()
 
     const getPosts = async () => {
         try {
@@ -15,9 +17,6 @@ export const HomeModule: React.FC = () => {
             )
             const responseJson = await response.json()
             console.log(responseJson)
-            if (responseJson.statusCode !== 200) {
-                throw new Error(responseJson)
-            }
 
             setPosts(responseJson)
         } catch (err) {
@@ -60,12 +59,12 @@ export const HomeModule: React.FC = () => {
 
     return (
         <>
-            <div className="sticky z-20 top-0 py-3 px-3 border-b-[1px] border-gray-700 before:backdrop-blur-sm before:absolute before:-z-10 before:top-0 before:left-0 before:w-full before:h-full">
-                <h1 className="font-medium text-lg">Beranda</h1>
+            <div className="sticky w-full z-10 top-0 py-3 px-3 border-b-[1px] border-gray-700">
+                <div className="absolute top-0 left-0 w-full h-full backdrop-blur-sm "></div>
+                <h1 className="font-medium text-lg relative">Beranda</h1>
             </div>
             <div>
-                <SendPost />
-                {renderPosts()}
+                {user ? <SendPost getPosts={getPosts} /> : ''} {renderPosts()}
             </div>
         </>
     )
