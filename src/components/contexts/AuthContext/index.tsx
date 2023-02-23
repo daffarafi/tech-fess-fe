@@ -90,35 +90,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
             const responseJson = await response.json()
 
             localStorage.setItem('AT', responseJson.access_token)
-        } catch (err) {
-        } finally {
-            setLoadingState(false)
-        }
-    }
-
-    const getUserByEmail = async (email: string) => {
-        try {
-            setLoadingState(true)
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/checkemail/${email}`
-            )
-            const responseJson = await response.json()
-            return responseJson.username
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setLoadingState(false)
-        }
-    }
-
-    const getUserByUsername = async (username: string) => {
-        try {
-            setLoadingState(true)
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/checkusername/${username}`
-            )
-            const responseJson = await response.json()
-            return responseJson.id
+            await getUser()
         } catch (err) {
         } finally {
             setLoadingState(false)
@@ -161,8 +133,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         loginSuccess,
         submitLoginForm,
         submitRegisterForm,
-        getUserByEmail,
-        getUserByUsername,
+        // getUserByEmail,
+        // getUserByUsername,
     }
 
     return (

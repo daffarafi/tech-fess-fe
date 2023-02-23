@@ -36,7 +36,7 @@ export const Register: React.FC<LoginRegisterFormProps> = ({
 
     return (
         <RegisterContextProvider>
-            <div className="fixed flex justify-center items-center top-0 left-0 w-full h-screen p-2 bg-secondary/30">
+            <div className="fixed z-10 flex justify-center items-center top-0 left-0 w-full h-screen p-2 bg-secondary/30">
                 <div className="w-full flex flex-col max-w-xl h-full max-h-[40rem] rounded-2xl bg-primary">
                     <div className="flex items-center py-3 px-4 gap-8">
                         <button

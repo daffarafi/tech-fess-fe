@@ -3,4 +3,6 @@ export interface PostingProps {
   username: string
   createdAt: Date
   content: string
+  isMine: boolean
+  isClosefriend: boolean
 }

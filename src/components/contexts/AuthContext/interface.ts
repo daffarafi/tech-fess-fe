@@ -15,8 +15,6 @@ export interface AuthContextProps {
     password,
     birthdate,
   }: RegisterProps) => Promise<void>
-  getUserByEmail: (email: string) => Promise<string>
-  getUserByUsername: (email: string) => Promise<number>
 }
 
 export interface UserProps {

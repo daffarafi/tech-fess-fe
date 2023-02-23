@@ -1,4 +1,4 @@
-import { useAuthContext, useRegisterContext } from '@contexts'
+import { useRegisterContext } from '@contexts'
 import { Button } from '@elements'
 import React, { useState } from 'react'
 import { SetStepProps } from './interface'
@@ -7,8 +7,8 @@ export const RegisterSecondPage: React.FC<SetStepProps> = ({ setStep }) => {
     const [isUsernameAlreadyRegistered, setIsUsernameAlreadyRegistered] =
         useState(false)
 
-    const { getUserByUsername, loadingState } = useAuthContext()
-    const { username, setUsername } = useRegisterContext()
+    const { username, setUsername, getUserByUsername, loadingState } =
+        useRegisterContext()
 
     const inputUsername = (value: string) => {
         if (value.length > 15) return

@@ -7,6 +7,8 @@ export const Posting: React.FC<PostingProps> = ({
     username,
     createdAt,
     content,
+    isMine,
+    isClosefriend,
 }) => {
     const renderRelativeCreatedDate = (rawCreatedDate: Date) => {
         const createdDate = new Date(rawCreatedDate)
@@ -35,8 +37,20 @@ export const Posting: React.FC<PostingProps> = ({
         return `${diffInSeconds}s`
     }
 
+    const getPostingBackground = () => {
+        if (isMine) {
+            return 'bg-secondary/10'
+        }
+        if (isClosefriend) {
+            return 'bg-success/10'
+        }
+        return 'bg-primary'
+    }
+
     return (
-        <div className="flex w-full gap-2 border-y-[1px] border-gray-700 px-3 py-2">
+        <div
+            className={`flex w-full gap-2 border-y-[1px] ${getPostingBackground()} border-gray-700 px-3 py-2`}
+        >
             <div>
                 <div className="w-12 h-12 bg-gray-500 rounded-full "></div>
             </div>

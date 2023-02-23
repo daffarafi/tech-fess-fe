@@ -3,14 +3,17 @@ import React, { useEffect, useState } from 'react'
 import { Login, Register } from '@modules'
 import { useAuthContext } from '@contexts'
 import { Arrowdown } from '@icons'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export const Aside: React.FC = () => {
     const [showRegisterForm, setShowRegisterForm] = useState(false)
     const [showLoginForm, setShowLoginForm] = useState(false)
     const [profileDropdown, setProfileDropdown] = useState(false)
+    const [logoutLoading, setLogoutLoading] = useState(false)
+    const router = useRouter()
 
-    // const { loadingState, user } = useAuthContext()
-    const { user } = useAuthContext()
+    const { loadingState, user } = useAuthContext()
 
     const toggleProfileDropdown = () => {
         setProfileDropdown(!profileDropdown)
@@ -18,6 +21,18 @@ export const Aside: React.FC = () => {
 
     const closeProfileDropdown = () => {
         setProfileDropdown(false)
+    }
+
+    const logoutButtonHandler = async () => {
+        try {
+            setLogoutLoading(true)
+            localStorage.removeItem('AT')
+            router.push('/')
+            window.location.reload()
+        } catch (err) {
+        } finally {
+            setLogoutLoading(false)
+        }
     }
 
     useEffect(() => {
@@ -46,8 +61,12 @@ export const Aside: React.FC = () => {
                     <div className="flex items-center gap-2">
                         <div className="w-10 h-10 bg-gray-400 rounded-full"></div>
                         <div className="flex flex-col">
-                            <p className="text-sm font-semibold">Daffa Rafi</p>
-                            <p className="text-sm text-secondary">@DaffaTGI</p>
+                            <p className="text-sm font-semibold text-start">
+                                {user?.displayName}
+                            </p>
+                            <p className="text-sm text-secondary">
+                                @{user?.username}
+                            </p>
                         </div>
                     </div>
                     <div>
@@ -65,12 +84,62 @@ export const Aside: React.FC = () => {
                         profileDropdown ? '' : 'hidden'
                     }`}
                 >
-                    <button className="block hover:bg-white/25 w-full text-start py-3 px-2 transition-all">
+                    <Link
+                        href={'/users'}
+                        className="block hover:bg-white/25 w-full text-start py-3 px-2 transition-all"
+                    >
                         Buka profile
+                    </Link>
+                    <button
+                        className="block hover:bg-white/25 w-full text-start py-3 px-2 transition-all text-danger"
+                        onClick={logoutButtonHandler}
+                        disabled={logoutLoading}
+                    >
+                        {logoutLoading ? (
+                            <div className="w-full my-20 flex justify-center">
+                                <div className="w-8 aspect-square rounded-full animate-spin border-2 border-secondary border-x-transparent"></div>
+                            </div>
+                        ) : (
+                            `Keluar dari @${user?.username}`
+                        )}
                     </button>
-                    <button className="block hover:bg-white/25 w-full text-start py-3 px-2 transition-all text-danger">
-                        Keluar dari @Daffa
-                    </button>
+                </div>
+            </div>
+        )
+    }
+
+    const renderWelcome = () => {
+        return (
+            <div className=" border-[1px] w-full border-gray-700 rounded-2xl px-2 py-3">
+                <h1 className="font-bold text-xl border-b border-gray-700 pb-2">
+                    Selamat datang di TechFess!
+                </h1>
+                <div className="pt-2 flex flex-col gap-3">
+                    <p className="text-xs text-secondary">
+                        Daftar sekarang dan bagikan pengalaman anda!
+                    </p>
+                    <div className="flex flex-col gap-1">
+                        <Button
+                            fullWidth
+                            onClick={() => {
+                                setShowLoginForm(true)
+                            }}
+                        >
+                            Masuk
+                        </Button>
+                        <Button
+                            fullWidth
+                            onClick={() => {
+                                setShowRegisterForm(true)
+                            }}
+                        >
+                            Daftar
+                        </Button>
+                    </div>
+                    <p className="text-xs text-secondary">
+                        Dengan mendaftar, Anda telah berkontribusi dalam
+                        mendukung proyek yang telah saya buat.
+                    </p>
                 </div>
             </div>
         )
@@ -79,38 +148,6 @@ export const Aside: React.FC = () => {
     const renderAuth = () => {
         return (
             <>
-                <div className=" border-[1px] w-full border-gray-700 rounded-2xl px-2 py-3">
-                    <h1 className="font-bold text-xl border-b border-gray-700 pb-2">
-                        Selamat datang di TechFess!
-                    </h1>
-                    <div className="pt-2 flex flex-col gap-3">
-                        <p className="text-xs text-secondary">
-                            Daftar sekarang dan bagikan pengalaman anda!
-                        </p>
-                        <div className="flex flex-col gap-1">
-                            <Button
-                                fullWidth
-                                onClick={() => {
-                                    setShowLoginForm(true)
-                                }}
-                            >
-                                Masuk
-                            </Button>
-                            <Button
-                                fullWidth
-                                onClick={() => {
-                                    setShowRegisterForm(true)
-                                }}
-                            >
-                                Daftar
-                            </Button>
-                        </div>
-                        <p className="text-xs text-secondary">
-                            Dengan mendaftar, Anda telah berkontribusi dalam
-                            mendukung proyek yang telah saya buat.
-                        </p>
-                    </div>
-                </div>
                 <div className={`${showRegisterForm ? '' : 'hidden'}`}>
                     <Register
                         setShowRegisterForm={setShowRegisterForm}
@@ -128,16 +165,25 @@ export const Aside: React.FC = () => {
     }
 
     const renderAsideContent = () => {
+        if (loadingState) {
+            return (
+                <div className="w-full my-20 flex justify-center">
+                    <div className="w-8 aspect-square rounded-full animate-spin border-2 border-secondary border-x-transparent"></div>
+                </div>
+            )
+        }
         if (user) {
             return renderProfile()
+        } else {
+            return renderWelcome()
         }
-        return renderAuth()
     }
 
     return (
         <div className="pl-4 ">
             <div className="pt-3 sticky z-10 top-0 w-64">
                 {renderAsideContent()}
+                {renderAuth()}
             </div>
         </div>
     )

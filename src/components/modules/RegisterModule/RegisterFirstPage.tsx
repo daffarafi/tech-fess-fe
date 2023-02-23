@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { RegisterFirstPageProps } from './interface'
 import { emailFilter } from './constant'
 import Link from 'next/link'
-import { useAuthContext, useRegisterContext } from '@contexts'
+import { useRegisterContext } from '@contexts'
 
 export const RegisterFirstPage: React.FC<RegisterFirstPageProps> = ({
     setStep,
@@ -22,7 +22,7 @@ export const RegisterFirstPage: React.FC<RegisterFirstPageProps> = ({
         setBirthdate,
     } = useRegisterContext()
 
-    const { loadingState, getUserByEmail } = useAuthContext()
+    const { loadingState, getUserByEmail } = useRegisterContext()
 
     const checkEmailFormat = () => (!emailFilter.test(email) ? false : true)
 

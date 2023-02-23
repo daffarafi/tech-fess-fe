@@ -11,6 +11,9 @@ export interface RegisterContextProps {
   setUsername: React.Dispatch<React.SetStateAction<string>>
   password: string
   setPassword: React.Dispatch<React.SetStateAction<string>>
+  getUserByEmail: (email: string) => Promise<string>
+  getUserByUsername: (email: string) => Promise<number>
+  loadingState: boolean
 }
 
 export interface RegisterContextProviderProps {

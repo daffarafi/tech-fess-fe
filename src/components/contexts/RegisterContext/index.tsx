@@ -13,6 +13,36 @@ export const RegisterContextProvider: React.FC<
     const [birthdate, setBirthdate] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [loadingState, setLoadingState] = useState(false)
+
+    const getUserByEmail = async (email: string) => {
+        try {
+            setLoadingState(true)
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/users/checkemail/${email}`
+            )
+            const responseJson = await response.json()
+            return responseJson.username
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setLoadingState(false)
+        }
+    }
+
+    const getUserByUsername = async (username: string) => {
+        try {
+            setLoadingState(true)
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/users/checkusername/${username}`
+            )
+            const responseJson = await response.json()
+            return responseJson.id
+        } catch (err) {
+        } finally {
+            setLoadingState(false)
+        }
+    }
 
     const contextValue = {
         displayName,
@@ -25,6 +55,9 @@ export const RegisterContextProvider: React.FC<
         setUsername,
         password,
         setPassword,
+        getUserByEmail,
+        getUserByUsername,
+        loadingState,
     }
 
     return (

@@ -13,7 +13,12 @@ export const HomeModule: React.FC = () => {
         try {
             setLoadingState(true)
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/postings`
+                `${process.env.NEXT_PUBLIC_API_URL}/postings`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('AT')}`,
+                    },
+                }
             )
             const responseJson = await response.json()
             console.log(responseJson)
@@ -50,6 +55,10 @@ export const HomeModule: React.FC = () => {
                             username={post.user.username}
                             content={post.content}
                             createdAt={post.createdAt}
+                            isMine={post.userId === user?.id}
+                            isClosefriend={
+                                post.isPrivate && post.userId !== user?.id
+                            }
                         />
                     ))}
                 </>
