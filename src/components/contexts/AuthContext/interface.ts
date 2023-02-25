@@ -15,6 +15,7 @@ export interface AuthContextProps {
     password,
     birthdate,
   }: RegisterProps) => Promise<void>
+  submitEditForm: ({}: EditProps) => Promise<void>
 }
 
 export interface UserProps {
@@ -43,4 +44,9 @@ export interface RegisterProps {
   displayName: string
   password: string
   birthdate: string
+}
+
+export interface EditProps {
+  displayName: string
+  biodata: string
 }

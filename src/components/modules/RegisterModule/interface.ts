@@ -8,3 +8,7 @@ export interface SetStepProps {
 export interface RegisterFirstPageProps
   extends SetStepProps,
     LoginRegisterFormProps {}
+
+export interface RegisterFifthPageProps {
+  setShowRegisterForm: React.Dispatch<React.SetStateAction<boolean>>
+}

@@ -6,6 +6,7 @@ import {
     LoginProps,
     RegisterProps,
     UserProps,
+    EditProps,
 } from './interface'
 
 const AuthContext = createContext({} as AuthContextProps) // TODO: Declare interface of contextValue
@@ -97,6 +98,21 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         }
     }
 
+    const uploadUserProfile = async () => {}
+
+    const uploadUserBanner = async () => {}
+
+    const submitEditUser = async () => {}
+
+    const submitEditForm = async ({ displayName, biodata }: EditProps) => {
+        const response = Promise.all([
+            uploadUserProfile(),
+            uploadUserBanner(),
+            submitEditUser(),
+        ])
+        console.log(response)
+    }
+
     const getUser = async () => {
         try {
             setLoadingState(true)
@@ -133,8 +149,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         loginSuccess,
         submitLoginForm,
         submitRegisterForm,
-        // getUserByEmail,
-        // getUserByUsername,
+        submitEditForm,
     }
 
     return (

@@ -30,7 +30,11 @@ export const Register: React.FC<LoginRegisterFormProps> = ({
             case 4:
                 return <RegisterFourthPage setStep={setStep} />
             case 5:
-                return <RegisterFifthPage />
+                return (
+                    <RegisterFifthPage
+                        setShowRegisterForm={setShowRegisterForm}
+                    />
+                )
         }
     }
 

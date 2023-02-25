@@ -1,24 +1,40 @@
-// import React from 'react'
-import { getUserProps } from '@ssr'
-// import { UserModule } from '@modules'
-import type { NextPage } from 'next'
+// import { getUserProps } from '@ssr'
+import { UserModule } from '@modules'
+import type {
+    GetServerSideProps,
+    InferGetServerSidePropsType,
+    NextPage,
+} from 'next'
+import { UserModuleProps } from 'src/components/modules/UserModule/interface'
 
-const Profile: NextPage = (props) => {
-    console.log(props)
-    // return <UserModule props={props} />
-    return <div></div>
+const Profile: NextPage<UserModuleProps> = ({
+    props,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    return <UserModule props={props} />
 }
 
-export { getUserProps }
+// export { getUserProps }
 
-// export async function getServerSideProps() {
-//     const response = await fetch(
-//         `${process.env.NEXT_PUBLIC_API_URL}/users/dapa123456`
-//     )
-//     const responseJson = await response.json()
-//     return {
-//         props: responseJson,
-//     }
-// }
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    try {
+        const { params } = context
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/users/${params?.username}`
+        )
+        const responseJson = await response.json()
+
+        if (!response.ok) {
+            throw new Error('User not found')
+        }
+
+        return {
+            props: responseJson,
+        }
+    } catch (err) {
+        return {
+            notFound: true,
+        }
+    }
+}
 
 export default Profile

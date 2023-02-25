@@ -4,14 +4,12 @@ import { Login, Register } from '@modules'
 import { useAuthContext } from '@contexts'
 import { Arrowdown } from '@icons'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 export const Aside: React.FC = () => {
     const [showRegisterForm, setShowRegisterForm] = useState(false)
     const [showLoginForm, setShowLoginForm] = useState(false)
     const [profileDropdown, setProfileDropdown] = useState(false)
     const [logoutLoading, setLogoutLoading] = useState(false)
-    const router = useRouter()
 
     const { loadingState, user } = useAuthContext()
 
@@ -27,7 +25,6 @@ export const Aside: React.FC = () => {
         try {
             setLogoutLoading(true)
             localStorage.removeItem('AT')
-            router.push('/')
             window.location.reload()
         } catch (err) {
         } finally {

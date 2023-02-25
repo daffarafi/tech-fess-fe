@@ -28,3 +28,26 @@ export interface PostsProps {
 export interface ContentProps extends PostsProps {
   loadingState: Boolean
 }
+
+export interface UserModuleProps {
+  props: {
+    id: number
+    displayName: string
+    username: string
+    birthdate: string
+    biodata: string
+    createdAt: string
+    closefriends: []
+  }
+}
+
+export interface ProfileHeaderProps {
+  userId: number
+  displayName: string
+  username: string
+  birthdate: string
+  joinDate: string
+  closefriends: []
+  openEditForm: () => void
+  biodata: string
+}

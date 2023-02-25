@@ -1,11 +1,25 @@
 import { useAuthContext } from '@contexts'
 import { Button } from '@elements'
 import { Check } from '@icons'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
+import { RegisterFifthPageProps } from './interface'
 
-export const RegisterFifthPage: React.FC = () => {
+export const RegisterFifthPage: React.FC<RegisterFifthPageProps> = ({
+    setShowRegisterForm,
+}) => {
+    const router = useRouter()
     const { loadingState } = useAuthContext()
+
+    const homePageButton = () => {
+        setShowRegisterForm(false)
+        router.push('/')
+    }
+
+    const profilePageButton = () => {
+        router.push('/users')
+        setShowRegisterForm(false)
+    }
 
     return (
         <>
@@ -20,27 +34,20 @@ export const RegisterFifthPage: React.FC = () => {
                         Terima kasih telah mendaftar!
                     </h1>
                     <div className="flex flex-col gap-6 w-full">
-                        <Link href={'/'}>
-                            <Button
-                                fullWidth
-                                onClick={() => window.location.reload()}
-                            >
-                                <span className="py-2 block font-semibold">
-                                    Beranda
-                                </span>
-                            </Button>
-                        </Link>
-                        <Link href={'/users'}>
-                            <Button
-                                variant="secondary"
-                                fullWidth
-                                onClick={() => window.location.reload()}
-                            >
-                                <span className="py-2 block font-semibold">
-                                    Profile
-                                </span>
-                            </Button>
-                        </Link>
+                        <Button fullWidth onClick={homePageButton}>
+                            <span className="py-2 block font-semibold">
+                                Beranda
+                            </span>
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            fullWidth
+                            onClick={profilePageButton}
+                        >
+                            <span className="py-2 block font-semibold">
+                                Profile
+                            </span>
+                        </Button>
                     </div>
                 </div>
             )}
