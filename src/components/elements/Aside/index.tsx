@@ -55,13 +55,13 @@ export const Aside: React.FC = () => {
                     className="flex justify-between relative z-10 bg-primary items-center w-full border-[1px] border-gray-700 rounded-full px-2 py-3 hover:bg-secondary/25 transition"
                     onClick={toggleProfileDropdown}
                 >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 overflow-hidden">
                         <div className="w-10 h-10 bg-gray-400 rounded-full"></div>
-                        <div className="flex flex-col">
-                            <p className="text-sm font-semibold text-start">
+                        <div className="flex flex-col flex-1 overflow-hidden ">
+                            <p className="text-sm font-semibold text-start truncate">
                                 {user?.displayName}
                             </p>
-                            <p className="text-sm text-secondary">
+                            <p className="text-sm text-secondary text-start truncate">
                                 @{user?.username}
                             </p>
                         </div>

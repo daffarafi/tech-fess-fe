@@ -2,7 +2,7 @@ import { useAuthContext } from '@contexts'
 import { Button } from '@elements'
 import { Cake, Date as DateIcon } from '@icons'
 // import Image from 'next/image'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ProfileHeaderProps } from './interface'
 import PropTypes, { Validator } from 'prop-types'
 
@@ -16,7 +16,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     openEditForm,
     biodata,
 }) => {
-    const { user } = useAuthContext()
+    const [isCloseFriend, setIsCloseFriend] = useState(true)
+    const [friendButtonLoading, setFriendButtonLoading] = useState(false)
+    const { user, loadingState } = useAuthContext()
 
     const renderBirthdate = () => {
         const date = new Date(birthdate)
@@ -35,12 +37,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         })
     }
 
-    const renderUserProfile = async () => {
+    const getUserProfile = async () => {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/users/photo/${userId}`
         )
         const responseJson = await response.json()
-        console.log(responseJson)
 
         if (!responseJson.content) {
             return
@@ -49,9 +50,111 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         return <div></div>
     }
 
+    const tambahTeman = async () => {
+        try {
+            setFriendButtonLoading(true)
+            if (!user) {
+                throw new Error('Anda belum login!')
+            }
+
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/closefriends/${userId}`,
+                {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('AT')}`,
+                    },
+                }
+            )
+            const responseJson = await response.json()
+
+            if (responseJson.statusCode === 400) {
+                throw new Error(responseJson.message)
+            }
+
+            setIsCloseFriend(true)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setFriendButtonLoading(false)
+        }
+    }
+
+    const hapusTeman = async () => {
+        try {
+            setFriendButtonLoading(true)
+            if (!user) {
+                throw new Error('Anda belum login!')
+            }
+
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/closefriends/${userId}`,
+                {
+                    method: 'delete',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('AT')}`,
+                    },
+                }
+            )
+            const responseJson = await response.json()
+
+            if (responseJson.statusCode === 400) {
+                throw new Error(responseJson.message)
+            }
+
+            setIsCloseFriend(false)
+            console.log(responseJson)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setFriendButtonLoading(false)
+        }
+    }
+
+    const renderAddRemoveFriendButton = () => {
+        if (loadingState || friendButtonLoading) {
+            return (
+                <div className="w-6 aspect-square rounded-full animate-spin border-2 border-secondary border-x-transparent"></div>
+            )
+        }
+        if (isCloseFriend) {
+            return (
+                <Button variant="tertiary" onClick={hapusTeman}>
+                    Hapus Teman
+                </Button>
+            )
+        }
+        return (
+            <Button variant="tertiary" onClick={tambahTeman}>
+                Tambah Teman
+            </Button>
+        )
+    }
+
+    const checkIsClosefriend = () => {
+        if (
+            user?.closefriends.some((closefriend) => closefriend.id === userId)
+        ) {
+            setIsCloseFriend(true)
+            return
+        }
+        setIsCloseFriend(false)
+    }
+
     useEffect(() => {
-        renderUserProfile()
-    })
+        if (!user) {
+            return
+        }
+        if (user) {
+            checkIsClosefriend()
+        }
+    }, [loadingState])
+
+    useEffect(() => {
+        getUserProfile()
+    }, [])
 
     return (
         <>
@@ -63,12 +166,12 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                             Edit Profile
                         </Button>
                     ) : (
-                        ''
+                        renderAddRemoveFriendButton()
                     )}
                 </div>
                 <div className="px-4 py-3 flex flex-col gap-3">
                     <div className="rounded-full relative border-4 border-primary bg-gray-400 w-40 h-40 -mt-24">
-                        {/* {renderUserProfile()} */}
+                        {/* {getUserProfile()} */}
                     </div>
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-col">

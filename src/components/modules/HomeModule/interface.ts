@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react'
+
 export interface PostProps {
   id: number
   createdAt: Date
@@ -9,4 +11,9 @@ export interface PostProps {
     displayName: string
     username: string
   }
+}
+
+export interface DropdownProps {
+  isPrivate: Boolean
+  setIsPrivate: Dispatch<SetStateAction<boolean>>
 }

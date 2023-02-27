@@ -66,7 +66,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     </div>
                 </Button>
                 <div
-                    className={`absolute z-30 top-10  bg-primary shadow-[0_0_10px_-4px_#ffffff] rounded-3xl w-80 py-3 ${
+                    className={`absolute z-30 top-10   bg-primary shadow-[0_0_10px_-4px_#ffffff] rounded-3xl w-80 pt-3 pb-5 ${
                         isDropdownVisible ? '' : 'hidden'
                     }`}
                 >

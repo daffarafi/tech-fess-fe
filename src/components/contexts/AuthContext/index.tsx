@@ -98,19 +98,81 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         }
     }
 
-    const uploadUserProfile = async () => {}
+    const uploadUserProfile = async (photo: File | null) => {
+        if (!photo) return
 
-    const uploadUserBanner = async () => {}
+        const body = new Blob([photo], { type: photo.type })
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/users/photo`,
+            {
+                method: 'post',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('AT')}`,
+                },
+                body,
+            }
+        )
+        const responseJson = response.json()
 
-    const submitEditUser = async () => {}
+        return responseJson
+    }
 
-    const submitEditForm = async ({ displayName, biodata }: EditProps) => {
-        const response = Promise.all([
-            uploadUserProfile(),
-            uploadUserBanner(),
-            submitEditUser(),
-        ])
-        console.log(response)
+    const uploadUserBanner = async (banner: File | null) => {
+        console.log('banner', banner)
+        console.log(typeof banner)
+        if (!banner) return
+
+        const file = new Blob([banner], { type: banner.type })
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/users/banner`,
+            {
+                method: 'post',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('AT')}`,
+                    'Content-Type': file.type,
+                },
+                // @ts-ignore
+                body: { file },
+            }
+        )
+        const responseJson = response.json()
+
+        return responseJson
+    }
+
+    const submitEditUser = async (displayName: string, biodata: string) => {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/users`,
+            {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('AT')}`,
+                },
+                body: JSON.stringify({ displayName, biodata }),
+            }
+        )
+
+        const responseJson = await response.json()
+
+        return responseJson
+    }
+
+    const submitEditForm = async ({
+        displayName,
+        biodata,
+        photo,
+        banner,
+    }: EditProps) => {
+        const responses = Promise.all([
+            uploadUserProfile(photo),
+            uploadUserBanner(banner),
+            submitEditUser(displayName, biodata),
+        ]).then((response) => {
+            console.log(response)
+        })
+
+        console.log(responses)
     }
 
     const getUser = async () => {

@@ -1,5 +1,7 @@
-import { Comment, Ellipsis, Like, Share } from '@icons'
+import { Comment, Like, Share } from '@icons'
+import Link from 'next/link'
 import React from 'react'
+import { Dropdown } from './Dropdown'
 import { PostingProps } from './interface'
 
 export const Posting: React.FC<PostingProps> = ({
@@ -52,39 +54,45 @@ export const Posting: React.FC<PostingProps> = ({
             className={`flex w-full gap-2 border-y-[1px] ${getPostingBackground()} border-gray-700 px-3 py-2`}
         >
             <div>
-                <div className="w-12 h-12 bg-gray-500 rounded-full "></div>
+                <Link
+                    href={`/users/${username}`}
+                    className="block w-12 h-12 bg-gray-500 rounded-full "
+                ></Link>
             </div>
-            <div className="w-full">
+            <div className="flex-1">
                 <div className="flex w-full justify-between">
-                    <div className="flex gap-2 ">
-                        <h1 className="font-medium">{displayName}</h1>
+                    <Link href={`/users/${username}`} className="flex gap-2 ">
+                        <h1 className="font-medium w-min max-w-[14rem] truncate">
+                            {displayName}
+                        </h1>
                         <p className="text-secondary">{`@${username} - ${renderRelativeCreatedDate(
                             createdAt
                         )}`}</p>
-                    </div>
-                    <div>
-                        <Ellipsis />
-                    </div>
+                    </Link>
+                    <Dropdown username={username} />
                 </div>
-                <div className="w-full">
-                    <p className="text-sm break-words">{content}</p>
-                </div>
+                <p
+                    className="text-sm break-words"
+                    style={{ wordBreak: 'break-word' }}
+                >
+                    {content}
+                </p>
                 <div className="flex w-full justify-around text-xs text-secondary py-3">
                     <div className="flex items-center gap-1">
                         <div>
-                            <Like />
+                            <Like size="w-4 h-4" fill="fill-secondary" />
                         </div>
                         <p>999</p>
                     </div>
                     <div className="flex items-center gap-1">
                         <div>
-                            <Comment />
+                            <Comment size="w-4 h-4" fill="fill-secondary" />
                         </div>
                         <p>999</p>
                     </div>
                     <div className="flex items-center gap-1">
                         <div>
-                            <Share />
+                            <Share size="w-4 h-4" fill="fill-secondary" />
                         </div>
                     </div>
                 </div>

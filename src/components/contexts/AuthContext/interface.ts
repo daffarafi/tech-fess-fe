@@ -27,6 +27,7 @@ export interface UserProps {
   birthdate: string
   biodata: string
   email: string
+  closefriends: { id: number }[]
 }
 
 export interface AuthContextProviderProps {
@@ -49,4 +50,6 @@ export interface RegisterProps {
 export interface EditProps {
   displayName: string
   biodata: string
+  photo: File | null
+  banner: File | null
 }

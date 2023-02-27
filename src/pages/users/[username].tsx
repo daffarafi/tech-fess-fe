@@ -1,15 +1,17 @@
 // import { getUserProps } from '@ssr'
 import { UserModule } from '@modules'
-import type {
-    GetServerSideProps,
-    InferGetServerSidePropsType,
-    NextPage,
-} from 'next'
-import { UserModuleProps } from 'src/components/modules/UserModule/interface'
+import type { GetServerSideProps, NextPage } from 'next'
 
-const Profile: NextPage<UserModuleProps> = ({
-    props,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Profile: NextPage<{
+    id: number
+    displayName: string
+    username: string
+    birthdate: string
+    biodata: string
+    createdAt: string
+    closefriends: []
+}> = (props) => {
+    console.log(props)
     return <UserModule props={props} />
 }
 

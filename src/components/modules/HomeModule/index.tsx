@@ -44,7 +44,11 @@ export const HomeModule: React.FC = () => {
             )
         }
         if (posts.length === 0) {
-            return <p className="text-secondary text-xl">Terjadi kesalahan!</p>
+            return (
+                <p className="text-secondary text-xl text-center py-2">
+                    Terjadi kesalahan!
+                </p>
+            )
         } else {
             return (
                 <>
@@ -68,7 +72,7 @@ export const HomeModule: React.FC = () => {
 
     return (
         <>
-            <div className="sticky w-full z-10 top-0 py-3 px-3 border-b-[1px] border-gray-700">
+            <div className="sticky w-full z-10 top-0 py-3 px-3 border-b border-gray-700">
                 <div className="absolute top-0 left-0 w-full h-full backdrop-blur-sm "></div>
                 <h1 className="font-medium text-lg relative">Beranda</h1>
             </div>

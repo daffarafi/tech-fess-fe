@@ -1,4 +1,5 @@
-import { Button, Dropdown } from '@elements'
+import { Button } from '@elements'
+import { Dropdown } from './Dropdown'
 import React, { useState } from 'react'
 
 export const SendPost: React.FC<{ getPosts: () => Promise<void> }> = ({

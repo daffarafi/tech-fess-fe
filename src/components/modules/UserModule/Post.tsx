@@ -1,9 +1,9 @@
 import { useAuthContext } from '@contexts'
 import { Posting } from '@elements'
 import React from 'react'
-import { ContentProps } from './interface'
+import { PostPageProps } from './interface'
 
-export const Content: React.FC<ContentProps> = ({ posts, loadingState }) => {
+export const Post: React.FC<PostPageProps> = ({ posts, loadingState }) => {
     const { user } = useAuthContext()
 
     const renderPosts = () => {

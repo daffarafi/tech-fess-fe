@@ -23,23 +23,6 @@ export const ContentTabs: React.FC<ContentTabsProps> = ({ tab, setTab }) => {
             </button>
             <button
                 className="hover:bg-gray-700 transition-all"
-                onClick={() => setTab('dibagikan')}
-            >
-                <p
-                    className={`py-3 ${
-                        tab === 'dibagikan' ? 'text-white' : 'text-secondary/75'
-                    }`}
-                >
-                    Dibagikan
-                </p>
-                <div
-                    className={`w-full h-1 transition-all ${
-                        tab === 'dibagikan' ? 'bg-secondary' : 'bg-secondary/25'
-                    }`}
-                />
-            </button>
-            <button
-                className="hover:bg-gray-700 transition-all"
                 onClick={() => setTab('disukai')}
             >
                 <p
@@ -52,6 +35,23 @@ export const ContentTabs: React.FC<ContentTabsProps> = ({ tab, setTab }) => {
                 <div
                     className={`w-full h-1 transition-all ${
                         tab === 'disukai' ? 'bg-secondary' : 'bg-secondary/25'
+                    }`}
+                />
+            </button>
+            <button
+                className="hover:bg-gray-700 transition-all"
+                onClick={() => setTab('teman')}
+            >
+                <p
+                    className={`py-3 ${
+                        tab === 'teman' ? 'text-white' : 'text-secondary/75'
+                    }`}
+                >
+                    Teman
+                </p>
+                <div
+                    className={`w-full h-1 transition-all ${
+                        tab === 'teman' ? 'bg-secondary' : 'bg-secondary/25'
                     }`}
                 />
             </button>

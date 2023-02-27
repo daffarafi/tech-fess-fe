@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction } from 'react'
 
 export interface tabsProps {
-  tab: 'post' | 'dibagikan' | 'disukai'
+  tab: 'post' | 'disukai' | 'teman'
 }
 
 export interface ContentTabsProps extends tabsProps {
-  setTab: Dispatch<SetStateAction<'post' | 'dibagikan' | 'disukai'>>
+  setTab: Dispatch<SetStateAction<tabsProps['tab']>>
 }
 
 export interface PostProps {
@@ -25,8 +25,13 @@ export interface PostsProps {
   posts: PostProps[]
 }
 
-export interface ContentProps extends PostsProps {
+export interface PostPageProps extends PostsProps {
   loadingState: Boolean
+}
+
+export interface TemanPageProps {
+  displayName: string
+  closefriends: []
 }
 
 export interface UserModuleProps {
