@@ -30,7 +30,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         try {
             setLoadingState(true)
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+                `${process.env.NEXT_PUBLIC_API_URL}auth/login`,
                 {
                     method: 'post',
                     headers: {
@@ -73,7 +73,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         try {
             setLoadingState(true)
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
+                `${process.env.NEXT_PUBLIC_API_URL}auth/signup`,
                 {
                     method: 'post',
                     headers: {
@@ -105,7 +105,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         body.append('file', photo)
 
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/users/photo`,
+            `${process.env.NEXT_PUBLIC_API_URL}users/photo`,
             {
                 method: 'post',
                 headers: {
@@ -126,7 +126,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         body.append('file', banner)
 
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/users/banner`,
+            `${process.env.NEXT_PUBLIC_API_URL}users/banner`,
             {
                 method: 'post',
                 headers: {
@@ -143,7 +143,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 
     const submitEditUser = async (displayName: string, biodata: string) => {
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/users`,
+            `${process.env.NEXT_PUBLIC_API_URL}users`,
             {
                 method: 'put',
                 headers: {
@@ -177,7 +177,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         try {
             setLoadingState(true)
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/me`,
+                `${process.env.NEXT_PUBLIC_API_URL}users/me`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -201,7 +201,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         if (!user) return
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/photo/${user.id}`
+                `${process.env.NEXT_PUBLIC_API_URL}users/photo/${user.id}`
             )
             const responseHeader = response.headers.get('content-type')
 

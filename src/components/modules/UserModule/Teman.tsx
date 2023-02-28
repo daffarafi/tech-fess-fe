@@ -20,7 +20,7 @@ export const Teman: React.FC<TemanPageProps> = ({
         const getFriendPhoto = async () => {
             try {
                 const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/users/photo/${id}`
+                    `${process.env.NEXT_PUBLIC_API_URL}users/photo/${id}`
                 )
                 const responseHeader = response.headers.get('content-type')
 

@@ -22,7 +22,7 @@ export const EditPost: React.FC<EditPostProps> = ({
         try {
             setLoadingState(true)
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/postings/${postId}`,
+                `${process.env.NEXT_PUBLIC_API_URL}postings/${postId}`,
                 {
                     method: 'put',
                     headers: {

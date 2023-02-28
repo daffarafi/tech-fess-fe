@@ -16,7 +16,7 @@ export const SendPost: React.FC<{
         try {
             setLoadingState(true)
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/postings`,
+                `${process.env.NEXT_PUBLIC_API_URL}postings`,
                 {
                     method: 'post',
                     headers: {

@@ -48,7 +48,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             }
 
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/closefriends/${userId}`,
+                `${process.env.NEXT_PUBLIC_API_URL}closefriends/${userId}`,
                 {
                     method: 'post',
                     headers: {
@@ -79,7 +79,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             }
 
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/closefriends/${userId}`,
+                `${process.env.NEXT_PUBLIC_API_URL}closefriends/${userId}`,
                 {
                     method: 'delete',
                     headers: {

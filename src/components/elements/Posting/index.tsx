@@ -39,7 +39,7 @@ export const Posting: React.FC<PostingProps> = ({
         try {
             setLoadingState(true)
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/postings/${id}`,
+                `${process.env.NEXT_PUBLIC_API_URL}postings/${id}`,
                 {
                     method: 'delete',
                     headers: {
@@ -131,7 +131,7 @@ export const Posting: React.FC<PostingProps> = ({
     const getPhotoByUserId = async () => {
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/photo/${userId}`
+                `${process.env.NEXT_PUBLIC_API_URL}users/photo/${userId}`
             )
             const responseHeader = response.headers.get('content-type')
 

@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
         const { params } = context
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/users/${params?.username}`
+            `${process.env.NEXT_PUBLIC_API_URL}users/${params?.username}`
         )
         const responseJson = await response.json()
 

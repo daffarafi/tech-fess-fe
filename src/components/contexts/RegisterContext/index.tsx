@@ -19,7 +19,7 @@ export const RegisterContextProvider: React.FC<
         try {
             setLoadingState(true)
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/checkemail/${email}`
+                `${process.env.NEXT_PUBLIC_API_URL}users/checkemail/${email}`
             )
             const responseJson = await response.json()
             return responseJson.username
@@ -34,7 +34,7 @@ export const RegisterContextProvider: React.FC<
         try {
             setLoadingState(true)
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/checkusername/${username}`
+                `${process.env.NEXT_PUBLIC_API_URL}users/checkusername/${username}`
             )
             const responseJson = await response.json()
             return responseJson.id

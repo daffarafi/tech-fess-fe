@@ -23,7 +23,7 @@ export const UserModule: React.FC<UserModuleProps> = ({ props }) => {
             setLoadingState(true)
 
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/${props.id}/postings`,
+                `${process.env.NEXT_PUBLIC_API_URL}users/${props.id}/postings`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('AT')}`,
@@ -44,7 +44,7 @@ export const UserModule: React.FC<UserModuleProps> = ({ props }) => {
     const getUserProfile = async () => {
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/photo/${props.id}`
+                `${process.env.NEXT_PUBLIC_API_URL}users/photo/${props.id}`
             )
             const responseHeader = response.headers.get('content-type')
 
@@ -65,7 +65,7 @@ export const UserModule: React.FC<UserModuleProps> = ({ props }) => {
     const getUserBanner = async () => {
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/banner/${props.id}`
+                `${process.env.NEXT_PUBLIC_API_URL}users/banner/${props.id}`
             )
             const responseHeader = response.headers.get('content-type')
 
