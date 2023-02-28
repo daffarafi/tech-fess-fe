@@ -33,7 +33,11 @@ export const Post: React.FC<PostPageProps> = ({ posts, loadingState }) => {
                         username={post.user.username}
                         content={post.content}
                         createdAt={post.createdAt}
-                        updatedAt={post.updatedAt}
+                        updatedAt={
+                            post.createdAt === post.updatedAt
+                                ? null
+                                : post.updatedAt
+                        }
                         isMine={post.userId === user?.id}
                         isClosefriend={
                             post.isPrivate && post.userId !== user?.id
