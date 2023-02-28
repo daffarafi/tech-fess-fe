@@ -5,7 +5,7 @@ export interface PostProps {
   createdAt: Date
   updatedAt: Date
   content: string
-  isPrivate: Boolean
+  isPrivate: boolean
   userId: number
   user: {
     displayName: string
@@ -14,6 +14,7 @@ export interface PostProps {
 }
 
 export interface DropdownProps {
-  isPrivate: Boolean
+  isPrivate: boolean
+  showOnTop?: boolean
   setIsPrivate: Dispatch<SetStateAction<boolean>>
 }

@@ -14,6 +14,8 @@ export const UserModule: React.FC<UserModuleProps> = ({ props }) => {
     const [content, setContent] = useState([])
     const [loadingState, setLoadingState] = useState(false)
     const [showEditForm, setShowEditForm] = useState(false)
+    const [banner, setBanner] = useState<string | null>(null)
+    const [photo, setPhoto] = useState<string | null>(null)
     const router = useRouter()
 
     const getPostsByUserId = async () => {
@@ -21,15 +23,63 @@ export const UserModule: React.FC<UserModuleProps> = ({ props }) => {
             setLoadingState(true)
 
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/users/${props.id}/postings`
+                `${process.env.NEXT_PUBLIC_API_URL}/users/${props.id}/postings`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('AT')}`,
+                    },
+                }
             )
             const responseJson = await response.json()
 
             setContent(responseJson)
+            console.log(responseJson)
         } catch (err) {
             console.log(err)
         } finally {
             setLoadingState(false)
+        }
+    }
+
+    const getUserProfile = async () => {
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/users/photo/${props.id}`
+            )
+            const responseHeader = response.headers.get('content-type')
+
+            if (responseHeader?.includes('image')) {
+                const blob = await response.blob()
+                const img = URL.createObjectURL(blob)
+                setPhoto(img)
+                return
+            }
+
+            const responseJson = await response.json()
+            throw new Error(responseJson.message)
+        } catch (err) {
+            setPhoto('/default-profile.jpeg')
+        }
+    }
+
+    const getUserBanner = async () => {
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/users/banner/${props.id}`
+            )
+            const responseHeader = response.headers.get('content-type')
+
+            if (responseHeader?.includes('image')) {
+                const blob = await response.blob()
+                const img = URL.createObjectURL(blob)
+                setBanner(img)
+                return
+            }
+
+            const responseJson = await response.json()
+            throw new Error(responseJson.message)
+        } catch (err) {
+            setBanner(null)
         }
     }
 
@@ -59,7 +109,9 @@ export const UserModule: React.FC<UserModuleProps> = ({ props }) => {
 
     useEffect(() => {
         getPostsByUserId()
-    }, [])
+        getUserProfile()
+        getUserBanner()
+    }, [router])
 
     return (
         <>
@@ -79,10 +131,12 @@ export const UserModule: React.FC<UserModuleProps> = ({ props }) => {
                 displayName={props.displayName}
                 username={props.username}
                 birthdate={props.birthdate}
-                biodata={props.biodata}
+                biodata={props.biodata || '-'}
                 joinDate={props.createdAt}
                 closefriends={props.closefriends}
                 openEditForm={openEditForm}
+                banner={banner}
+                photo={photo}
             />
             <ContentTabs tab={tab} setTab={setTab} />
             {renderContent()}
@@ -91,6 +145,8 @@ export const UserModule: React.FC<UserModuleProps> = ({ props }) => {
                     closeEditForm={closeEditForm}
                     displayName={props.displayName}
                     biodata={props.biodata}
+                    banner={banner}
+                    photo={photo}
                 />
             </div>
         </>

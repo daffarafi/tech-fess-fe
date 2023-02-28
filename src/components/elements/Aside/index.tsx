@@ -4,6 +4,7 @@ import { Login, Register } from '@modules'
 import { useAuthContext } from '@contexts'
 import { Arrowdown } from '@icons'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export const Aside: React.FC = () => {
     const [showRegisterForm, setShowRegisterForm] = useState(false)
@@ -56,7 +57,18 @@ export const Aside: React.FC = () => {
                     onClick={toggleProfileDropdown}
                 >
                     <div className="flex items-center gap-2 overflow-hidden">
-                        <div className="w-10 h-10 bg-gray-400 rounded-full"></div>
+                        <div className="w-10 h-10 bg-gray-400 rounded-full relative overflow-hidden">
+                            {user ? (
+                                <Image
+                                    fill
+                                    src={user.photo || '/default-profile.jpeg'}
+                                    alt="user-photo"
+                                    className="object-cover"
+                                />
+                            ) : (
+                                ''
+                            )}
+                        </div>
                         <div className="flex flex-col flex-1 overflow-hidden ">
                             <p className="text-sm font-semibold text-start truncate">
                                 {user?.displayName}

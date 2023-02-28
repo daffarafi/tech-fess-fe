@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useAuthContext } from '@contexts'
 import { Ellipsis, Share, Addfriend, Trash, Flag, Pencil } from '@icons'
+import Link from 'next/link'
+import { DropdownProps } from './interface'
 
-export const Dropdown: React.FC<{ username: string }> = ({ username }) => {
+export const Dropdown: React.FC<DropdownProps> = ({
+    username,
+    deleteBtnHandler,
+    setEditMode,
+}) => {
     const [moreDropdown, setMoreDropdown] = useState(false)
     const { user } = useAuthContext()
 
@@ -11,6 +17,11 @@ export const Dropdown: React.FC<{ username: string }> = ({ username }) => {
     }
 
     const closeShowMore = () => {
+        setMoreDropdown(false)
+    }
+
+    const openEditMode = () => {
+        setEditMode(true)
         setMoreDropdown(false)
     }
 
@@ -37,22 +48,31 @@ export const Dropdown: React.FC<{ username: string }> = ({ username }) => {
                 }`}
             >
                 {user?.username === username ? (
-                    <button className="flex items-center gap-2 justify-start bg-primary whitespace-nowrap w-full text-start px-5 py-2 hover:bg-secondary/50 ">
+                    <button
+                        className="flex items-center gap-2 justify-start bg-primary whitespace-nowrap w-full text-start px-5 py-2 hover:bg-secondary/50 "
+                        onClick={openEditMode}
+                    >
                         <Pencil fill="fill-white" size="w-4 h-4" />
                         <p>Edit Postingan</p>
                     </button>
                 ) : (
-                    <button className="flex items-center gap-2 justify-start bg-primary whitespace-nowrap w-full text-start px-5 py-2 hover:bg-secondary/50 ">
+                    <Link
+                        href={`/users/${username}`}
+                        className="flex items-center gap-2 justify-start bg-primary whitespace-nowrap w-full text-start px-5 py-2 hover:bg-secondary/50 "
+                    >
                         <Addfriend fill="fill-white" size="w-4 h-4" />
-                        <p>Ikuti @{username}</p>
-                    </button>
+                        <p>Lihat @{username}</p>
+                    </Link>
                 )}
                 <button className="flex  items-center gap-2 justify-start bg-primary whitespace-nowrap w-full text-start px-5 py-2 hover:bg-secondary/50">
                     <Share fill="fill-white" size="w-4 h-4" />
                     <p>Bagikan post ini</p>
                 </button>
                 {user?.username === username ? (
-                    <button className="flex  items-center gap-2 justify-start bg-primary whitespace-nowrap w-full text-danger text-start px-5 py-2 hover:bg-secondary/50">
+                    <button
+                        className="flex  items-center gap-2 justify-start bg-primary whitespace-nowrap w-full text-danger text-start px-5 py-2 hover:bg-secondary/50"
+                        onClick={deleteBtnHandler}
+                    >
                         <Trash fill="fill-danger" size="w-4 h-4" />
                         <p>Hapus Postingan</p>
                     </button>

@@ -5,6 +5,7 @@ import { Cake, Date as DateIcon } from '@icons'
 import { useEffect, useState } from 'react'
 import { ProfileHeaderProps } from './interface'
 import PropTypes, { Validator } from 'prop-types'
+import Image from 'next/image'
 
 export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     userId,
@@ -15,6 +16,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     closefriends,
     openEditForm,
     biodata,
+    banner,
+    photo,
 }) => {
     const [isCloseFriend, setIsCloseFriend] = useState(true)
     const [friendButtonLoading, setFriendButtonLoading] = useState(false)
@@ -35,19 +38,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             month: 'long',
             year: 'numeric',
         })
-    }
-
-    const getUserProfile = async () => {
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/users/photo/${userId}`
-        )
-        const responseJson = await response.json()
-
-        if (!responseJson.content) {
-            return
-        }
-
-        return <div></div>
     }
 
     const tambahTeman = async () => {
@@ -105,7 +95,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             }
 
             setIsCloseFriend(false)
-            console.log(responseJson)
         } catch (err) {
             console.log(err)
         } finally {
@@ -114,6 +103,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     }
 
     const renderAddRemoveFriendButton = () => {
+        if (!user) return
         if (loadingState || friendButtonLoading) {
             return (
                 <div className="w-6 aspect-square rounded-full animate-spin border-2 border-secondary border-x-transparent"></div>
@@ -152,13 +142,20 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         }
     }, [loadingState])
 
-    useEffect(() => {
-        getUserProfile()
-    }, [])
-
     return (
         <>
-            <div className="w-full h-60 bg-gray-400"></div>
+            <div className="w-full h-60 bg-gray-400 relative">
+                {banner ? (
+                    <Image
+                        fill
+                        className="object-cover"
+                        src={banner}
+                        alt="user_banner"
+                    />
+                ) : (
+                    ''
+                )}
+            </div>
             <div className="relative">
                 <div className="absolute top-0 right-0 mx-4 my-3">
                     {user?.id === userId ? (
@@ -171,7 +168,16 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 </div>
                 <div className="px-4 py-3 flex flex-col gap-3">
                     <div className="rounded-full relative border-4 border-primary bg-gray-400 w-40 h-40 -mt-24">
-                        {/* {getUserProfile()} */}
+                        {photo ? (
+                            <Image
+                                fill
+                                className="object-cover rounded-full"
+                                src={photo}
+                                alt="user_photo"
+                            />
+                        ) : (
+                            ''
+                        )}
                     </div>
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-col">
@@ -221,4 +227,6 @@ ProfileHeader.propTypes = {
     closefriends: PropTypes.arrayOf(PropTypes.any).isRequired as Validator<[]>,
     openEditForm: PropTypes.func.isRequired,
     biodata: PropTypes.string.isRequired,
+    banner: PropTypes.string,
+    photo: PropTypes.string,
 }

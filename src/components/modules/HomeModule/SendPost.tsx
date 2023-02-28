@@ -1,10 +1,12 @@
 import { Button } from '@elements'
 import { Dropdown } from './Dropdown'
 import React, { useState } from 'react'
+import Image from 'next/image'
 
-export const SendPost: React.FC<{ getPosts: () => Promise<void> }> = ({
-    getPosts,
-}) => {
+export const SendPost: React.FC<{
+    getPosts: () => Promise<void>
+    photo: string
+}> = ({ getPosts, photo }) => {
     const [isPostFocused, setIsPostFocused] = useState(false)
     const [isPrivate, setIsPrivate] = useState(false)
     const [postContent, setPostContent] = useState('')
@@ -54,7 +56,14 @@ export const SendPost: React.FC<{ getPosts: () => Promise<void> }> = ({
             ) : (
                 ''
             )}
-            <div className="w-12 h-12 bg-gray-500 rounded-full "></div>
+            <div className="w-12 h-12 bg-gray-500 rounded-full relative overflow-hidden">
+                <Image
+                    fill
+                    src={photo || '/default-profile.jpeg'}
+                    className="object-cover"
+                    alt="user-photo"
+                />
+            </div>
             <div className="w-full flex-1">
                 <Dropdown
                     isPrivate={isPrivate}
@@ -78,7 +87,7 @@ export const SendPost: React.FC<{ getPosts: () => Promise<void> }> = ({
                         setIsPostFocused(false)
                     }}
                     className="bg-transparent w-full resize-none focus:outline-none min-h-[2rem] my-3"
-                ></textarea>
+                />
                 <div className="flex flex-row-reverse items-center gap-2">
                     <Button
                         variant="primary"

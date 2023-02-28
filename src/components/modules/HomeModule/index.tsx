@@ -21,7 +21,9 @@ export const HomeModule: React.FC = () => {
                 }
             )
             const responseJson = await response.json()
-            console.log(responseJson)
+            if (responseJson.statusCode) {
+                throw new Error(responseJson.message)
+            }
 
             setPosts(responseJson)
         } catch (err) {
@@ -55,14 +57,22 @@ export const HomeModule: React.FC = () => {
                     {posts.map((post) => (
                         <Posting
                             key={post.id}
+                            id={post.id}
+                            userId={post.userId}
                             displayName={post.user.displayName}
                             username={post.user.username}
                             content={post.content}
                             createdAt={post.createdAt}
+                            updatedAt={
+                                post.createdAt === post.updatedAt
+                                    ? null
+                                    : post.updatedAt
+                            }
                             isMine={post.userId === user?.id}
                             isClosefriend={
                                 post.isPrivate && post.userId !== user?.id
                             }
+                            isPrivate={post.isPrivate}
                         />
                     ))}
                 </>
@@ -77,7 +87,12 @@ export const HomeModule: React.FC = () => {
                 <h1 className="font-medium text-lg relative">Beranda</h1>
             </div>
             <div>
-                {user ? <SendPost getPosts={getPosts} /> : ''} {renderPosts()}
+                {user ? (
+                    <SendPost getPosts={getPosts} photo={user.photo} />
+                ) : (
+                    ''
+                )}{' '}
+                {renderPosts()}
             </div>
         </>
     )

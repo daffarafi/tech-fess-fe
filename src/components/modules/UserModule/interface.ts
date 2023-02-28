@@ -13,7 +13,7 @@ export interface PostProps {
   createdAt: Date
   updatedAt: Date
   content: string
-  isPrivate: Boolean
+  isPrivate: boolean
   userId: number
   user: {
     displayName: string
@@ -26,7 +26,7 @@ export interface PostsProps {
 }
 
 export interface PostPageProps extends PostsProps {
-  loadingState: Boolean
+  loadingState: boolean
 }
 
 export interface TemanPageProps {
@@ -55,4 +55,6 @@ export interface ProfileHeaderProps {
   closefriends: []
   openEditForm: () => void
   biodata: string
+  banner: string | null | undefined
+  photo: string | null | undefined
 }

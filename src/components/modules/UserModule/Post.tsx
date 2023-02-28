@@ -7,7 +7,6 @@ export const Post: React.FC<PostPageProps> = ({ posts, loadingState }) => {
     const { user } = useAuthContext()
 
     const renderPosts = () => {
-        console.log(posts)
         if (loadingState) {
             return (
                 <div className="w-full my-20 flex justify-center">
@@ -29,14 +28,18 @@ export const Post: React.FC<PostPageProps> = ({ posts, loadingState }) => {
                 {posts.map((post) => (
                     <Posting
                         key={post.id}
+                        id={post.id}
                         displayName={post.user.displayName}
                         username={post.user.username}
                         content={post.content}
                         createdAt={post.createdAt}
+                        updatedAt={post.updatedAt}
                         isMine={post.userId === user?.id}
                         isClosefriend={
                             post.isPrivate && post.userId !== user?.id
                         }
+                        userId={post.userId}
+                        isPrivate={post.isPrivate}
                     />
                 ))}
             </>

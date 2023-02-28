@@ -101,7 +101,9 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     const uploadUserProfile = async (photo: File | null) => {
         if (!photo) return
 
-        const body = new Blob([photo], { type: photo.type })
+        const body = new FormData()
+        body.append('file', photo)
+
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/users/photo`,
             {
@@ -118,21 +120,20 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     }
 
     const uploadUserBanner = async (banner: File | null) => {
-        console.log('banner', banner)
-        console.log(typeof banner)
         if (!banner) return
 
-        const file = new Blob([banner], { type: banner.type })
+        const body = new FormData()
+        body.append('file', banner)
+
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/users/banner`,
             {
                 method: 'post',
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('AT')}`,
-                    'Content-Type': file.type,
                 },
                 // @ts-ignore
-                body: { file },
+                body,
             }
         )
         const responseJson = response.json()
@@ -168,11 +169,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
             uploadUserProfile(photo),
             uploadUserBanner(banner),
             submitEditUser(displayName, biodata),
-        ]).then((response) => {
-            console.log(response)
-        })
-
-        console.log(responses)
+        ]).then((response) => response)
+        return responses
     }
 
     const getUser = async () => {
@@ -192,15 +190,42 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
                 throw new Error('Anda belum login!')
             }
             setUser(responseJson)
+            console.log(responseJson)
         } catch (e) {
         } finally {
             setLoadingState(false)
         }
     }
 
+    const getUserProfile = async () => {
+        if (!user) return
+        try {
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_API_URL}/users/photo/${user.id}`
+            )
+            const responseHeader = response.headers.get('content-type')
+
+            if (responseHeader?.includes('image')) {
+                const blob = await response.blob()
+                const img = URL.createObjectURL(blob)
+                setUser({ ...user, photo: img })
+                return
+            }
+
+            const responseJson = await response.json()
+            throw new Error(responseJson.message)
+        } catch (err) {
+            setUser({ ...user, photo: '/default-profile.jpeg' })
+        }
+    }
+
     useEffect(() => {
         getUser()
     }, [])
+
+    useEffect(() => {
+        getUserProfile()
+    }, [user])
 
     const contextValue = {
         user,

@@ -11,7 +11,6 @@ const Profile: NextPage<{
     createdAt: string
     closefriends: []
 }> = (props) => {
-    console.log(props)
     return <UserModule props={props} />
 }
 

@@ -1,3 +1,4 @@
+import { useAuthContext } from '@contexts'
 import { Button } from '@elements'
 import { Arrowdown, Earth, Friend } from '@icons'
 import Link from 'next/link'
@@ -7,8 +8,10 @@ import { DropdownProps } from './interface'
 export const Dropdown: React.FC<DropdownProps> = ({
     isPrivate,
     setIsPrivate,
+    showOnTop = false,
 }) => {
     const [isDropdownVisible, setIsDropdownVisible] = useState(false)
+    const { user } = useAuthContext()
 
     const toggleDropdown = () => {
         setIsDropdownVisible(!isDropdownVisible)
@@ -66,7 +69,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     </div>
                 </Button>
                 <div
-                    className={`absolute z-30 top-10   bg-primary shadow-[0_0_10px_-4px_#ffffff] rounded-3xl w-80 pt-3 pb-5 ${
+                    className={`absolute z-30 ${
+                        showOnTop ? 'bottom-10' : 'top-10'
+                    }   bg-primary shadow-[0_0_10px_-4px_#ffffff] rounded-3xl w-80 pt-3 pb-5 ${
                         isDropdownVisible ? '' : 'hidden'
                     }`}
                 >
@@ -99,12 +104,12 @@ export const Dropdown: React.FC<DropdownProps> = ({
                             <p className="font-medium">Teman dekat</p>
                             <div className="flex gap-2 text-sm">
                                 <p>
-                                    20{' '}
+                                    {user?.closefriends.length || 0}{' '}
                                     <span className="text-secondary">
                                         Teman
                                     </span>
                                 </p>
-                                <Link href={'/edit'} className="underline">
+                                <Link href={'/users'} className="underline">
                                     Edit
                                 </Link>
                             </div>
