@@ -172,7 +172,10 @@ export const Posting: React.FC<PostingProps> = ({
             </div>
             <div className="flex-1 flex flex-col gap-1">
                 <div className="flex w-full justify-between">
-                    <Link href={`/users/${username}`} className="flex gap-2 ">
+                    <Link
+                        href={`/users/${username}`}
+                        className="flex md:gap-2 flex-col md:flex-row "
+                    >
                         <h1 className="font-medium w-min max-w-[14rem] truncate">
                             {displayName}
                         </h1>

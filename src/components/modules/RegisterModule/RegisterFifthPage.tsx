@@ -28,7 +28,7 @@ export const RegisterFifthPage: React.FC<RegisterFifthPageProps> = ({
                     <div className="w-8 aspect-square rounded-full animate-spin border-2 border-secondary border-x-transparent"></div>
                 </div>
             ) : (
-                <div className="px-20 pt-5 overflow-y-auto flex flex-col gap-8 flex-1 items-center text-center justify-center -mt-14">
+                <div className="px-10 md:px-20 pt-5 overflow-y-auto flex flex-col gap-8 flex-1 items-center text-center justify-center -mt-14">
                     <Check size="w-20 h-20" fill="fill-success" />
                     <h1 className="font-semibold text-3xl">
                         Terima kasih telah mendaftar!

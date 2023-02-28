@@ -29,7 +29,7 @@ export const Login: React.FC<LoginRegisterFormProps> = ({
     const renderLoginForm = () => {
         return (
             <>
-                <div className="px-20 pt-5 overflow-y-auto flex flex-col gap-8 flex-1">
+                <div className="px-10 md:px-20 pt-5 overflow-y-auto flex flex-col gap-8 flex-1">
                     <h1 className="font-semibold text-3xl">Masuk</h1>
                     <div className="flex flex-col gap-6">
                         <label>
@@ -149,7 +149,7 @@ export const Login: React.FC<LoginRegisterFormProps> = ({
     }
 
     return (
-        <div className="fixed flex justify-center items-center top-0 z-20 left-0 w-full h-screen p-2 bg-secondary/30">
+        <div className="fixed flex justify-center items-center top-0 z-20 left-0 w-full h-screen  md:p-2 bg-secondary/30">
             <div className="w-full  flex flex-col max-w-xl h-full max-h-[40rem] rounded-2xl bg-primary">
                 <div className="flex items-center py-3 px-4 gap-8">
                     <button

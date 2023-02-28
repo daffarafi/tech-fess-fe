@@ -32,7 +32,7 @@ export const RegisterFourthPage: React.FC<SetStepProps> = ({ setStep }) => {
 
     return (
         <>
-            <div className="px-20 pt-5 overflow-y-auto flex flex-col gap-8 flex-1">
+            <div className="px-10 md:px-20 pt-5 overflow-y-auto flex flex-col gap-8 flex-1">
                 <h1 className="font-semibold text-3xl">Lindungi akun anda!</h1>
                 <div className="flex flex-col gap-6">
                     <label>

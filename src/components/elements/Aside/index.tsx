@@ -189,7 +189,7 @@ export const Aside: React.FC = () => {
     }
 
     return (
-        <div className="hidden lg:block pl-4 ">
+        <div className="hidden md:block pl-4 ">
             <div className="pt-3 sticky z-10 top-0 w-64">
                 {renderAsideContent()}
                 {renderAuth()}
